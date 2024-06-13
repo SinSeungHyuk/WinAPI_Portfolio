@@ -1,0 +1,70 @@
+[ANIMATION_NAME]
+MOVE_DOWN
+
+[ATLAS_TEXTURE]
+LinkTex
+texture\link_32.bmp
+
+[FRAME_DATA]
+Frame_Count 10
+
+Frame_Index 0
+Left_Top    0.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 1
+Left_Top    120.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 2
+Left_Top    240.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 3
+Left_Top    360.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 4
+Left_Top    480.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 5
+Left_Top    600.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 6
+Left_Top    720.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 7
+Left_Top    840.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 8
+Left_Top    960.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
+Frame_Index 9
+Left_Top    1080.000000 520.000000
+Offset      0.000000 0.000000
+Slice       120.000000 130.000000
+Duration    0.050000
+
