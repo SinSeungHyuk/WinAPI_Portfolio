@@ -9,6 +9,7 @@
 CCollider::CCollider()
 	: CComponent(COMPONENT_TYPE::COLLIDER)
 	, m_OverlapCount(0)
+	, m_State(ACTIVE)
 {
 }
 
@@ -17,6 +18,7 @@ CCollider::CCollider(const CCollider& _Other)
 	, m_OffsetPos(_Other.m_OffsetPos)
 	, m_Scale(_Other.m_Scale)
 	, m_OverlapCount(0)
+	, m_State(_Other.m_State)
 {
 }
 
@@ -24,12 +26,25 @@ CCollider::~CCollider()
 {
 }
 
+void CCollider::Activate()
+{
+	m_State = ACTIVE;
+}
+
+void CCollider::Deactivate()
+{
+	m_State = SEMIDEACTIVE;
+}
+
 void CCollider::FinalTick()
 {
+	if (DEACTIVE == m_State)
+		return;
+	else if (SEMIDEACTIVE == m_State)
+		m_State = DEACTIVE;
+
 	// 충돌체의 최종 위치 계산
 	m_FinalPos = GetOwner()->GetPos() + m_OffsetPos;
-
-
 
 	// 충돌체를 레이어 번호에 맞게 충돌매니저에 등록
 	CCollisionMgr::Get()->RegisterCollider(this, (LAYER_TYPE)GetOwner()->GetLayerType());

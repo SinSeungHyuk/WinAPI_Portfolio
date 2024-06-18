@@ -44,14 +44,12 @@ public:
 public:
     // 시점 함수
     virtual void Tick() = 0;
-    virtual void FinalTick();
+    virtual void FinalTick() final;
     virtual void Render();
-
 
     virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {};
     virtual void Overlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {};
     virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {};
-
 
 public:
     virtual CObj* Clone() = 0;

@@ -86,17 +86,19 @@ void CCollisionMgr::CollisionLayer(int Left, int Right)
 			
 			// 두 충돌체중 하나이상이 Dead 상태인지 확인
 			bool IsDead = vecLeft[i]->GetOwner()->IsDead() || vecRight[j]->GetOwner()->IsDead();
+			bool IsDeactive = vecLeft[i]->GetState() == DEACTIVE || vecRight[j]->GetState() == DEACTIVE;
 
 			// 충돌체가 현재 충돌 중이다.
 			if (Collision(vecLeft[i], vecRight[j]))
 			{
 				if (iter->second)
 				{			
-					if (IsDead)
+					if (IsDead || IsDeactive)
 					{
 						// 현재 겹침, 이전에도 겹침, 둘중 하나가 곧 삭제 예정
 						vecLeft[i]->EndOverlap(vecRight[j]);
 						vecRight[j]->EndOverlap(vecLeft[i]);
+						iter->second = false;
 					}
 					else
 					{
@@ -107,13 +109,13 @@ void CCollisionMgr::CollisionLayer(int Left, int Right)
 				}
 				else
 				{
-					if (!IsDead)
+					if (!IsDead && !IsDeactive)
 					{
 						// 현재 겹침 X, 이전에는 겹침 , 둘 다 삭제예정상태 아님
 						vecLeft[i]->BeginOverlap(vecRight[j]);
 						vecRight[j]->BeginOverlap(vecLeft[i]);
 						iter->second = true;
-					}
+					}					
 				}
 			}
 

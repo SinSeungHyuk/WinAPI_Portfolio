@@ -40,9 +40,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UpdateWindow(hWnd);
 
     // Engine 초기화
-    CEngine::Get()->Init(hWnd, 1920, 1080);
-
-   
+    CEngine::Get()->Init(hWnd, 1280, 768);
     
    
     // GetMessage 함수는 메세지큐에 메세지가 있으면 메세지를 꺼내온다.
@@ -55,41 +53,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 메세지큐에 메세지가 있으면 true,
     // 메세지큐에 메세지가 없으면 false,
     MSG msg = {};
-
-    static int EngineCount = 0;
-    static int MsgCount = 0;
-    static float AccTime = 0.f;
+        
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             if (WM_QUIT == msg.message)
                 break;
-
             TranslateMessage(&msg);
-            DispatchMessage(&msg);
-            //MsgCount += 1;
+            DispatchMessage(&msg);         
         }
 
         else
         {
-            // 게임 구현
-            // Progress 함수 1회 실행 == 1 프레임
-            CEngine::Get()->Progress();
-            //EngineCount += 1;
-        }
-
-        /*AccTime += DT;
-        if (1.f <= AccTime)
-        {
-            AccTime -= 1.f;
-
-            float fPercent = (float)EngineCount / (float)(EngineCount + MsgCount);            
-            
-            wchar_t buff[256] = {};
-            swprintf_s(buff, 256, L"EngineCount Ratio : %f", fPercent);
-            SetWindowText(CEngine::Get()->GetMainHwnd(), buff);
-        }*/
+            CEngine::Get()->Progress();         
+        }       
     }
 
     return (int) msg.wParam;

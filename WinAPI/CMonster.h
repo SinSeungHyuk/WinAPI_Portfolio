@@ -2,6 +2,7 @@
 #include "CObj.h"
 
 class CCollider;
+class CMonsterStateMachine;
 
 class CMonster :
     public CObj
@@ -11,6 +12,7 @@ private:
 
     CTexture*       m_Texture;
     CCollider*      m_Collider;
+    CMonsterStateMachine* stateMachine;
     int             m_HP;
 
 public:

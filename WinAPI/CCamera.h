@@ -19,15 +19,14 @@ class CCamera
 {
 	SINGLE(CCamera);
 private:
-	Vec2		m_LookAt;
-	Vec2		m_LookAtDiff;
+	Vec2		m_LookAt;		// 카메라가 보고있는 실제위치
+	Vec2		m_LookAtDiff;	// 해상도 중심과, m_LookAt 과의 차이값을 계산 (실제 위치->렌더포즈, 렌더포즈->실제위치)
 	Vec2		m_ShakeOffset;
 	float		m_CamSpeed;
 
 	// Filter Effect
-	CTexture*	m_BlackFilterTex;
-	FILTER_INFO	m_FilterInfo;
-
+	CTexture*			m_BlackFilterTex;
+	list<FILTER_INFO>	m_FilterInfo;
 
 	// Camera Oscillation
 	float		m_Frequency;
@@ -51,9 +50,13 @@ public:
 
 	void SetFilterEffect(FILTER_EFFECT _Effect, float _Duration)
 	{
-		m_FilterInfo.Effect = _Effect;
-		m_FilterInfo.Duration = _Duration;
-		m_FilterInfo.AccTime = 0.f;
+		FILTER_INFO info = {};	
+
+		info.Effect = _Effect;
+		info.Duration = _Duration;
+		info.AccTime = 0.f;
+
+		m_FilterInfo.push_back(info);
 	}
 
 	void SetLookAt(Vec2 _Look) { m_LookAt = _Look; }

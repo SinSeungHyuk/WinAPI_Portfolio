@@ -25,7 +25,7 @@ void CPanel::Tick_UI()
 		SetPos(vPos);
 
 		m_GrabPos = vCurMousePos;
-	}	
+	}
 }
 
 void CPanel::Render_UI()

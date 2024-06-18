@@ -7,22 +7,34 @@ class CStateMachine :
     public CComponent
 {
 private:
-    map<wstring, CState*>   m_mapState;
-    CState*                 m_CurState;
+    class StateData {
+        CState* State;
+        int Layer;
+        int Priority;
+
+        StateData(CState* state, int layer, int priority)
+            : State(state), Layer(layer), Priority(priority) {}
+
+        friend CStateMachine;
+    };
+
+    map<int, vector<StateData*>>   stateDatasByLayer;
+    map<int, StateData*>   currentStateDatasByLayer;
+    set<int> layers;
 
 
 public:
-    void AddState(const wstring& _StateName, CState* _State);
-    CState* FindState(const wstring& _StateName);
-    void ChangeState(const wstring& _StateName);
-
-public:
-    virtual void FinalTick() override;
-
-public:
-    CLONE(CStateMachine);
+    virtual CStateMachine* Clone() = 0;
     CStateMachine();
     CStateMachine(const CStateMachine& _Other);
     ~CStateMachine();
+
+    void AddState(const wstring& stateName, CState* state, int layer);
+    StateData* FindState(const wstring& stateName, int layer);
+    void ChangeState(const wstring& stateName, int layer);
+    void SetLayer();
+
+    virtual void FinalTick() override;
+    virtual void AddStates() = 0;
 };
 

@@ -14,7 +14,6 @@ class CState :
 private:
     CStateMachine*      m_Owner;
 
-
 public:
     CStateMachine* GetStateMachine() { return m_Owner; }
 

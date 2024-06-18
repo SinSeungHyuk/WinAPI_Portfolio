@@ -15,6 +15,9 @@ public:
     UINT GetWidth() { return m_BitInfo.bmWidth; }
     UINT GetHeight() { return m_BitInfo.bmHeight; }
     HDC GetDC() { return m_hDC; }
+    void* GetPixelx() { return m_BitInfo.bmBits; }
+    
+
 
 private:
     virtual int Load(const wstring& _FilePath) override;

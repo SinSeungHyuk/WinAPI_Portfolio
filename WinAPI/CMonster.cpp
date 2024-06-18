@@ -9,10 +9,9 @@
 
 #include "CTexture.h"
 
-#include "CStateMachine.h"
-#include "CIdleState.h"
-#include "CTraceState.h"
-#include "CAttackState.h"
+#include "CMonsterStateMachine.h"
+
+
 
 CMonster::CMonster()
 	: m_Texture(nullptr)
@@ -26,12 +25,7 @@ CMonster::CMonster()
 	m_Collider = AddComponent(new CCollider);
 	m_Collider->SetScale(Vec2(200.f, 200.f));
 
-	CStateMachine* pSM = AddComponent(new CStateMachine);
-	pSM->AddState(L"IdleState", new CIdleState);
-	pSM->AddState(L"TraceState", new CTraceState);
-	pSM->AddState(L"AttackState", new CAttackState);
-
-	pSM->ChangeState(L"IdleState");
+	stateMachine = AddComponent(new CMonsterStateMachine);
 }
 
 CMonster::CMonster(const CMonster& _Other)

@@ -1,0 +1,76 @@
+[ANIMATION_NAME]
+RUN_LEFT
+
+[ATLAS_TEXTURE]
+VirtualGuy_RUN_LEFT
+texture\Run_flip.png
+
+[FRAME_DATA]
+Frame_Count 11
+
+Frame_Index 0
+Left_Top    0.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 1
+Left_Top    64.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 2
+Left_Top    128.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 3
+Left_Top    192.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 4
+Left_Top    256.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 5
+Left_Top    320.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 6
+Left_Top    384.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 7
+Left_Top    448.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 8
+Left_Top    512.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 9
+Left_Top    576.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+
+Frame_Index 10
+Left_Top    640.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.050000
+

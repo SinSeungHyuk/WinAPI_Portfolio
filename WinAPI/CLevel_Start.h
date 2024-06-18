@@ -1,15 +1,10 @@
 #pragma once
 #include "CLevel.h"
 
-class CTileMap;
-
 class CLevel_Start :
     public CLevel
 {
 private:
-    CTileMap* m_TileMap;
-
-    void TileMode();
 
 public:
     virtual void Init() override;   // 레벨 초기화

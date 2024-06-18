@@ -100,7 +100,6 @@ void CRigidBody::FinalTick()
 	}
 
 
-
 	// 속도에 따른 물체의 이동 발생
 	Vec2 vObjPos = GetOwner()->GetPos();	
 	GetOwner()->SetPos(vObjPos + vFinalVelocity * DT);

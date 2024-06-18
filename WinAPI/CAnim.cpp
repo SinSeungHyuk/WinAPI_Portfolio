@@ -70,7 +70,7 @@ void CAnim::Render()
 				  m_Atlas->GetDC(),
 				  m_vecFrm[m_CurIdx].vLeftTop.x, m_vecFrm[m_CurIdx].vLeftTop.y,
 				  m_vecFrm[m_CurIdx].vSlice.x, m_vecFrm[m_CurIdx].vSlice.y,
-				  RGB(255, 0, 255));
+				  RGB(0, 0, 0));
 }
 
 
@@ -87,6 +87,8 @@ void CAnim::Create(const tAnimDesc& _Info)
 		frm.vLeftTop.y = _Info.StartLeftTop.y;
 
 		frm.vSlice = _Info.SliceSize;
+
+		frm.vOffset = _Info.animOffset;
 
 		frm.Duration = 1.f / (float)_Info.FPS;
 
@@ -210,48 +212,3 @@ void CAnim::Load(const wstring& _FilePath)
 	fclose(pFile);
 }
 
-//void CAnim::Save(const wstring& _FolderPath)
-//{
-//	wstring strName = GetName();
-//	wstring FilePath = _FolderPath + strName + L".anim";
-//
-//	FILE* pFile = nullptr;
-//	_wfopen_s(&pFile, FilePath.c_str(), L"wb");
-//
-//	// 애니메이션 이름
-//	SaveWString(strName, pFile);
-//	
-//	// 각 프레임별 데이터
-//	size_t size = m_vecFrm.size();
-//	fwrite(&size, sizeof(size_t), 1, pFile);
-//	fwrite(m_vecFrm.data(), sizeof(tAnimFrm), size, pFile);
-//
-//	// 참조하던 아틀라스 텍스쳐 정보
-//	SaveAssetRef(m_Atlas, pFile);
-//	
-//
-//	fclose(pFile);
-//}
-//
-//void CAnim::Load(const wstring& _FilePath)
-//{
-//	FILE* pFile = nullptr;
-//	_wfopen_s(&pFile, _FilePath.c_str(), L"rb");
-//
-//	// Animation 이름
-//	wstring strName;
-//	LoadWString(strName, pFile);
-//	SetName(strName);
-//
-//	// 프레임 데이터
-//	size_t size = 0;
-//	fread(&size, sizeof(size_t), 1, pFile);
-//
-//	m_vecFrm.resize(size);
-//	fread(m_vecFrm.data(), sizeof(tAnimFrm), size, pFile);
-//
-//	// Atlas 텍스쳐
-//	m_Atlas = LoadTextureRef(pFile);
-//
-//	fclose(pFile);
-//}

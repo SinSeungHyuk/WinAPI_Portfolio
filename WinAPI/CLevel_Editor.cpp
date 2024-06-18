@@ -73,22 +73,16 @@ void CLevel_Editor::Init()
 	pObj = new CTile;
 	pObj->SetName(L"Tile Object");
 	pObj->SetPos(0.f, 0.f);
-	m_TileMap = pObj->GetComponent<CTileMap>();
-	m_TileMap->SetAtlas(CAssetMgr::Get()->LoadTexture(L"TILE", L"texture\\TILE_Atlas.png"));
-	m_TileMap->SetAtlasTileSize(Vec2(64.f, 64.f));
-	m_TileMap->SetTileSize(Vec2(64.f, 64.f));
-	m_TileMap->SetRowCol(20, 50);
-	AddObject(pObj, LAYER_TYPE::TILE);
 
-	//pObj = new CTile;
-	//pObj->SetName(L"Tile Object");
-	//pObj->SetPos(0.f, 500.f);
-	//m_TileMap = pObj->GetComponent<CTileMap>();
-	//m_TileMap->SetAtlas(CAssetMgr::Get()->LoadTexture(L"Tile_Terrain", L"texture\\Terrain.png"));
-	//m_TileMap->SetAtlasTileSize(Vec2(64.f, 64.f));
-	//m_TileMap->SetTileSize(Vec2(64.f, 64.f));
-	//m_TileMap->SetRowCol(1, 30);
-	//AddObject(pObj, LAYER_TYPE::TILE);
+	m_TileMap = pObj->GetComponent<CTileMap>();
+
+	m_TileMap->SetAtlas(CAssetMgr::Get()->LoadTexture(L"TileAtlasTex", L"texture\\TILE.bmp"));
+	m_TileMap->SetAtlasTileSize(Vec2(64.f, 64.f));
+
+	m_TileMap->SetTileSize(Vec2(64.f, 64.f));
+	m_TileMap->SetRowCol(5, 5);
+
+	AddObject(pObj, LAYER_TYPE::TILE);
 
 
 	// Panel 추가
@@ -152,12 +146,12 @@ void CLevel_Editor::Tick()
 {
 	CLevel::Tick();
 
-	/*if (KEY_TAP(KEY::ENTER))
+	if (KEY_TAP(KEY::ENTER))
 	{
 		ChangeLevel(LEVEL_TYPE::START);
-		CCamera::Get()->SetFilterEffect(FADE_OUT, 0.5f);
-		CCamera::Get()->SetFilterEffect(FADE_IN, 0.5f);
-	}*/
+		CCamera::Get()->SetFilterEffect(FADE_OUT, 1.f);
+		CCamera::Get()->SetFilterEffect(FADE_IN, 1.f);		
+	}
 
 	// 타일 관련 마우스 체크
 	TileMode();

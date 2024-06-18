@@ -9,6 +9,7 @@ struct tAnimDesc
     CTexture*   pAtlas;
     Vec2        StartLeftTop;
     Vec2        SliceSize;
+    Vec2        animOffset;
     int         FrmCount;
     int         FPS;    
 };

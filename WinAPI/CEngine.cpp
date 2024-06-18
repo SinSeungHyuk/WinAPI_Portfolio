@@ -90,9 +90,8 @@ void CEngine::Render()
 {
 	// Rendering
 	// 윈도우 화면(비트맵) 을 특정 색상으로 Clear 해준다.
-	HBRUSH hPrevBrush = (HBRUSH)SelectObject(m_BackBuffer->GetDC(), m_Brush[(int)BRUSH_TYPE::GRAY]);
-	Rectangle(m_BackBuffer->GetDC(), -1, -1, (int)m_Resolution.x + 1, (int)m_Resolution.y + 1);
-	SelectObject(m_BackBuffer->GetDC(), hPrevBrush);
+	SELECT_BRUSH(m_BackBuffer->GetDC(), BRUSH_TYPE::GRAY);
+	Rectangle(m_BackBuffer->GetDC(), -1, -1, (int)m_Resolution.x + 1, (int)m_Resolution.y + 1);	
 	
 	// 레벨에 물체들을 화면에 렌더링
 	CLevelMgr::Get()->Render();
@@ -109,7 +108,8 @@ void CEngine::Render()
 #endif
 
 	// BackBuffer 그림을 MainDC 버퍼로 복사
-	BitBlt(m_DC, 0, 0, (int)m_Resolution.x, (int)m_Resolution.y, m_BackBuffer->GetDC(), 0, 0, SRCCOPY);
+	BitBlt(m_DC, 0, 0, (int)m_Resolution.x, (int)m_Resolution.y
+		 , m_BackBuffer->GetDC(), 0, 0, SRCCOPY);
 }
 
 void CEngine::CreateGDIObject()

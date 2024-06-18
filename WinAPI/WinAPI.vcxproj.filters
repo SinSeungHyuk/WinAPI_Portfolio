@@ -140,14 +140,11 @@
     <Filter Include="Game\08. Module\State">
       <UniqueIdentifier>{ea920dc0-7fde-4ce1-b3db-d1c2420249bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\08. Module\State\IdleState">
-      <UniqueIdentifier>{ba9ab324-1a19-4a14-a155-b24850ad6345}</UniqueIdentifier>
+    <Filter Include="Game\08. Module\State\IdleStates">
+      <UniqueIdentifier>{0434ec7e-6b74-4383-8b0f-1114f0c135a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\08. Module\State\TraceState">
-      <UniqueIdentifier>{97fa025c-1059-4fcb-b643-162a5e8dd904}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\08. Module\State\AttackState">
-      <UniqueIdentifier>{9069c955-2640-4f16-b4a6-56523bbd6a73}</UniqueIdentifier>
+    <Filter Include="Game\08. Module\State\MovementStates">
+      <UniqueIdentifier>{826f3dd3-54a7-4e6d-8ed3-31e717e5022e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -298,14 +295,17 @@
     <ClInclude Include="CState.h">
       <Filter>Game\08. Module\State</Filter>
     </ClInclude>
-    <ClInclude Include="CTraceState.h">
-      <Filter>Game\08. Module\State\TraceState</Filter>
+    <ClInclude Include="CMonsterStateMachine.h">
+      <Filter>Game\06. Component\05. StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="CIdleState.h">
-      <Filter>Game\08. Module\State\IdleState</Filter>
+    <ClInclude Include="CPlayerIdleState.h">
+      <Filter>Game\08. Module\State\IdleStates</Filter>
     </ClInclude>
-    <ClInclude Include="CAttackState.h">
-      <Filter>Game\08. Module\State\AttackState</Filter>
+    <ClInclude Include="CPlayerStateMachine.h">
+      <Filter>Game\06. Component\05. StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerMoveState.h">
+      <Filter>Game\08. Module\State\MovementStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -449,14 +449,17 @@
     <ClCompile Include="CState.cpp">
       <Filter>Game\08. Module\State</Filter>
     </ClCompile>
-    <ClCompile Include="CTraceState.cpp">
-      <Filter>Game\08. Module\State\TraceState</Filter>
+    <ClCompile Include="CMonsterStateMachine.cpp">
+      <Filter>Game\06. Component\05. StateMachine</Filter>
     </ClCompile>
-    <ClCompile Include="CIdleState.cpp">
-      <Filter>Game\08. Module\State\IdleState</Filter>
+    <ClCompile Include="CPlayerIdleState.cpp">
+      <Filter>Game\08. Module\State\IdleStates</Filter>
     </ClCompile>
-    <ClCompile Include="CAttackState.cpp">
-      <Filter>Game\08. Module\State\AttackState</Filter>
+    <ClCompile Include="CPlayerStateMachine.cpp">
+      <Filter>Game\06. Component\05. StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerMoveState.cpp">
+      <Filter>Game\08. Module\State\MovementStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -32,6 +32,11 @@ void CTimeMgr::Tick()
 	QueryPerformanceCounter(&m_CurrentCount);
 
 	m_DT = (double)(m_CurrentCount.QuadPart - m_PrevCount.QuadPart) / (double)m_Frequency.QuadPart;
+
+	// DT 보정, 60 분의 1 보다 크지 못하게 보정
+	if ((1.f / 60.f) < m_DT)
+		m_DT = (1.f / 60.f);
+
 	m_fDT = (float)m_DT;
 	
 	// 시간 누적

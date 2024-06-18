@@ -23,6 +23,22 @@ void CTileMap::FinalTick()
 
 void CTileMap::Render()
 {
+	Vec2 vPos = GetOwner()->GetRenderPos();
+
+	SELECT_PEN(BackDC, PEN_TYPE::MAGENTA);
+
+	for (int iRow = 0; iRow < m_Row + 1; ++iRow)
+	{
+		MoveToEx(BackDC, (int)vPos.x, (int)vPos.y + iRow * (int)m_TileSize.y, nullptr);
+		LineTo(BackDC, (int)vPos.x + m_Col * (int)m_TileSize.x, (int)vPos.y + iRow * (int)m_TileSize.y);		
+	}
+	
+	for (int iCol = 0; iCol < m_Col + 1; ++iCol)
+	{
+		MoveToEx(BackDC, (int)vPos.x + iCol * (int)m_TileSize.x, (int)vPos.y, nullptr);
+		LineTo(BackDC, (int)vPos.x + iCol * (int)m_TileSize.x, (int)vPos.y + m_Row * (int)m_TileSize.y);
+	}
+
 	if (nullptr != m_Atlas)
 	{
 		Render_Tile();

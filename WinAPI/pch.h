@@ -15,9 +15,13 @@ using std::wstring;
 #include <vector>
 #include <list>
 #include <map>
+#include <set>
+#include <algorithm>
+#include <math.h>
 using std::vector;
 using std::list;
 using std::map;
+using std::set;
 using std::make_pair;
 
 

@@ -21,8 +21,6 @@ CCamera::CCamera()
 	// Black Filter Texture 생성
 	Vec2 vResolution = CEngine::Get()->GetResolution();
 	m_BlackFilterTex = CAssetMgr::Get()->CreateTexture(L"BlackFliterTex", (UINT)vResolution.x, (UINT)vResolution.y);
-
-	m_FilterInfo.Effect = NONE;
 }
 
 CCamera::~CCamera()
@@ -58,35 +56,34 @@ void CCamera::Tick()
 
 void CCamera::Render()
 {		
-	if (m_FilterInfo.Effect == NONE)
+	if (m_FilterInfo.empty())
 		return;
 		
+	FILTER_INFO& info = m_FilterInfo.front();
+
 	UINT Alpha = 0;
-
-	if (FILTER_EFFECT::FADE_OUT == m_FilterInfo.Effect)
+	if (FILTER_EFFECT::FADE_OUT == info.Effect)
 	{
-		float fRatio = m_FilterInfo.AccTime / m_FilterInfo.Duration;
+		float fRatio = info.AccTime / info.Duration;
 		Alpha = (UINT)(255.f * fRatio);
 	}
 
-	else if (FILTER_EFFECT::FADE_IN == m_FilterInfo.Effect)
+	else if (FILTER_EFFECT::FADE_IN == info.Effect)
 	{
-		float fRatio = 1.f - (m_FilterInfo.AccTime / m_FilterInfo.Duration);
+		float fRatio = 1.f - (info.AccTime / info.Duration);
 		Alpha = (UINT)(255.f * fRatio);
 	}
 
-	m_FilterInfo.AccTime += DT;
-	if (m_FilterInfo.Duration < m_FilterInfo.AccTime)
+	info.AccTime += DT;
+	if (info.Duration < info.AccTime)
 	{
-		m_FilterInfo.Effect = NONE;
-		m_AccTime = 0.f;
-		m_Duration = 0.f;
+		m_FilterInfo.pop_front();
 	}
 
 	BLENDFUNCTION blend = {};
 	blend.BlendOp = AC_SRC_OVER;
 	blend.BlendFlags = 0;
-	blend.SourceConstantAlpha = Alpha;
+	blend.SourceConstantAlpha = Alpha; // 0(투명) ~ 255(불투명)
 	blend.AlphaFormat = 0;
 	
 	AlphaBlend(BackDC, 0, 0

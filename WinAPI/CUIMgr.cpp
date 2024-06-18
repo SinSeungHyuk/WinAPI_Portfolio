@@ -8,6 +8,7 @@
 #include "CKeyMgr.h"
 
 CUIMgr::CUIMgr()
+	: m_PreventFrame(0)
 {
 
 }

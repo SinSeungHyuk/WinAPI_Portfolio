@@ -1,83 +1,85 @@
 #include "pch.h"
-#include "CStateMachine.h"
 
+#include "CStateMachine.h"
 #include "CState.h"
+
+class StateData;
 
 CStateMachine::CStateMachine()
 	: CComponent(COMPONENT_TYPE::STATE_MACHINE)
-	, m_CurState(nullptr)
 {
 
 }
 
 CStateMachine::CStateMachine(const CStateMachine& _Other)
 	: CComponent(_Other)
-	, m_CurState(nullptr)
 {
-	map<wstring, CState*>::const_iterator iter = _Other.m_mapState.begin();
-	for (; iter != _Other.m_mapState.end(); ++iter)
-	{
-		CState* pCloneState = iter->second->Clone();
-		AddState(iter->first, pCloneState);
-	}
-		
-	if (nullptr != _Other.m_CurState)
-	{
-		ChangeState(_Other.m_CurState->GetName());
-	}
+	stateDatasByLayer = _Other.stateDatasByLayer;
+	currentStateDatasByLayer = _Other.currentStateDatasByLayer;
+	layers = _Other.layers;
 }
 
 CStateMachine::~CStateMachine()
 {
-	Release_Map(m_mapState);
+	for (auto stateDatas : stateDatasByLayer)
+		Release_Vector(stateDatas.second);
 }
 
 
 void CStateMachine::FinalTick()
 {
-	if (nullptr == m_CurState)
-		return;
+	for (int layer : layers) {
+		StateData* currentData = currentStateDatasByLayer[layer];
 
-	m_CurState->FinalTick();
+		if (currentData != nullptr)
+			currentData->State->FinalTick();
+	}
 }
 
-
-void CStateMachine::AddState(const wstring& _StateName, CState* _State)
+void CStateMachine::AddState(const wstring& stateName, CState* state, int layer)
 {
-	CState* pState = FindState(_StateName);
-	assert(pState == nullptr);
+	state->SetName(stateName);
+	state->m_Owner = this;
 
-	_State->SetName(_StateName);
-	m_mapState.insert(make_pair(_StateName, _State));
-	_State->m_Owner = this;
+	if (layers.find(layer) == layers.end()) layers.insert(layer);
+
+	stateDatasByLayer[layer].push_back(new StateData(
+		state, layer, stateDatasByLayer[layer].size()
+	));
 }
 
-CState* CStateMachine::FindState(const wstring& _StateName)
+CStateMachine::StateData* CStateMachine::FindState(const wstring& stateName, int layer)
 {
-	map<wstring, CState*>::iterator iter = m_mapState.find(_StateName);
+	assert(layers.find(layer) != layers.end());
 
-	if (iter == m_mapState.end())
-	{
-		return nullptr;
+	for (StateData* iter : stateDatasByLayer[layer]) {
+		if (iter->State->GetName() == stateName)
+			return iter;
 	}
 
-	return iter->second;
+	return nullptr;
 }
 
-void CStateMachine::ChangeState(const wstring& _StateName)
+void CStateMachine::ChangeState(const wstring& stateName, int layer)
 {
-	CState* pNextState = FindState(_StateName);
+	StateData* changeState = FindState(stateName, layer);
 
 	// 기존 상태를 빠져나오고(Exit)
-	if (nullptr != m_CurState)
+	if (nullptr != currentStateDatasByLayer[layer])
 	{
-		m_CurState->Exit();
+		currentStateDatasByLayer[layer]->State->Exit();
 	}
 
 	// 새로운 상태를 가리키고
-	m_CurState = pNextState;
-	assert(m_CurState);
-
+	currentStateDatasByLayer[layer] = changeState;
 	// 새로운 상태로 진입(Enter) 한다.
-	m_CurState->Enter();
+	changeState->State->Enter();
+}
+
+void CStateMachine::SetLayer()
+{
+	for (auto stateDatas : stateDatasByLayer) {
+		StateData* firstStateData = stateDatas.second.front();
+		ChangeState(firstStateData->State->GetName(), stateDatas.first);
+	}
 }

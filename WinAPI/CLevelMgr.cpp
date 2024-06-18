@@ -33,7 +33,7 @@ void CLevelMgr::Init()
 	m_arrLevel[(int)LEVEL_TYPE::START] = new CLevel_Start;
 	m_arrLevel[(int)LEVEL_TYPE::EIDTOR] = new CLevel_Editor;
 
-	m_CurLevel = m_arrLevel[(int)LEVEL_TYPE::EIDTOR];
+	m_CurLevel = m_arrLevel[(int)LEVEL_TYPE::START];
 	m_CurLevel->Init();
 }
 
