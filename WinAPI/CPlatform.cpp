@@ -52,48 +52,58 @@ void CPlatform::Tick()
 
 }
 
-void CPlatform::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+void CPlatform::BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider)
 {
-	CPlayer* pOtherObj = dynamic_cast<CPlayer*>(_OtherObj);
-	if (pOtherObj)
-	{
-		CRigidBody* pRigidBody = pOtherObj->GetComponent<CRigidBody>();
+	if (ownCollider->GetTrigger()) {
 
+	}
+
+
+	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
+	if (player)
+	{
+		CRigidBody* playerRigidbody = player->GetComponent<CRigidBody>();
+
+ 		float playerPosUp = player->GetPos().y - player->GetScale().y;
+		float playerPosDown = player->GetPos().y;
+		float platformPosUp = GetPos().y - GetScale().y * 0.49;
+		float platformPosDown = GetPos().y + GetScale().y * 0.49;
 
 		// ¾Æ·¡¿¡¼­ À§·Î ¿Ã¶ó¿ÔÀ»¶§ ºÎµúÈû
-		if (pOtherObj->GetPrevPos().y - pOtherObj->GetPos().y > 0.f) overlapType = OVERLAP_TYPE::IS_COLLISION_UP;
+		if (playerPosUp - platformPosDown > 0.f) {
+			playerRigidbody->SetGravityVelocity(Vec2(0.f, 0.f));
+			overlapType = OVERLAP_TYPE::IS_COLLISION_UP;
+		}
 		// À§¿¡¼­ ¾Æ·¡·Î ³»·Á¿ÔÀ»¶§ ºÎµúÈû
-		else if (pOtherObj->GetPrevPos().y - (GetPos().y - GetScale().y * 0.45f) < 0.f) {
-
-			pRigidBody->SetGround(true); // ¹Ù´Ú À­¸é¿¡ ÀÖÀ» °æ¿ì SetGround(true)
+		else if (playerPosDown - platformPosUp < 0.f) {
+			playerRigidbody->SetGround(true); // ¹Ù´Ú À­¸é¿¡ ÀÖÀ» °æ¿ì SetGround(true)
 			overlapType = OVERLAP_TYPE::IS_COLLISION_DOWN;
 		}
 		// ¿ÞÂÊ¿¡¼­ ¿À¸¥ÂÊÀ¸·Î ºÎµúÈû
-		else if (pOtherObj->GetPrevPos().x - pOtherObj->GetPos().x > 0.f) overlapType = OVERLAP_TYPE::IS_COLLISION_LEFT;
+		else if (player->GetPrevPos().x - player->GetPos().x > 0.f) overlapType = OVERLAP_TYPE::IS_COLLISION_LEFT;
 		// ¿À¸¥ÂÊ¿¡¼­ ¿ÞÂÊÀ¸·Î ºÎµúÈû
-		else if (pOtherObj->GetPrevPos().x - pOtherObj->GetPos().x < 0.f) overlapType = OVERLAP_TYPE::IS_COLLISION_RIGHT;
+		else if (player->GetPrevPos().x - player->GetPos().x < 0.f) overlapType = OVERLAP_TYPE::IS_COLLISION_RIGHT;
 	}
 }
 
-void CPlatform::Overlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+void CPlatform::Overlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider)
 {
-	CPlayer* pOtherObj = dynamic_cast<CPlayer*>(_OtherObj);
-	if (pOtherObj)
+	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
+	if (player)
 	{
-		pOtherObj->SetCollisionType(overlapType, true);
+		player->SetCollisionType(overlapType, true);
 	}
 }
 
-void CPlatform::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+void CPlatform::EndOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider)
 {
-	CPlayer* pOtherObj = dynamic_cast<CPlayer*>(_OtherObj);
-	if (pOtherObj)
+	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
+	if (player)
 	{
-		CRigidBody* pRigidBody = pOtherObj->GetComponent<CRigidBody>();
+		CRigidBody* playerRigidbody = player->GetComponent<CRigidBody>();
 		if (overlapType == OVERLAP_TYPE::IS_COLLISION_DOWN)
-			pRigidBody->SetGround(false); // ¹Ù´Ú À­¸é¿¡ ÀÖ´Ù°¡ ¶³¾îÁú °æ¿ì SetGround(false)
+			playerRigidbody->SetGround(false); // ¹Ù´Ú À­¸é¿¡ ÀÖ´Ù°¡ ¶³¾îÁú °æ¿ì SetGround(false)
 
-		pOtherObj->SetCollisionType(overlapType, false);
-
+		player->SetCollisionType(overlapType, false);
 	}
 }

@@ -3,17 +3,17 @@
 
 void CPlayerIdleState::Enter()
 {
-	LOG(LOG_LEVEL::WARNING, L"Enter IdleState");
+	player = GetOwner<CPlayer>();
+
+	if (player->IsPlayerLeft())
+		player->animator->Play(L"IDLE_LEFT", true);
+	else 
+		player->animator->Play(L"IDLE_RIGHT", true);
 }
 
 void CPlayerIdleState::FinalTick()
 {
-	timer += DT;
-
-	if (timer > 0.9f) {
-		LOG(LOG_LEVEL::LOG, L"0번 레이어");
-		timer = 0.f;
-	}
+	
 }
 
 void CPlayerIdleState::Exit()
@@ -21,7 +21,9 @@ void CPlayerIdleState::Exit()
 }
 
 CPlayerIdleState::CPlayerIdleState()
+	: player(nullptr)
 {
+
 }
 
 CPlayerIdleState::~CPlayerIdleState()

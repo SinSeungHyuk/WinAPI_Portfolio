@@ -1,18 +1,19 @@
 #pragma once
 #include "CState.h"
 
+class CPlayer;
+
 class CPlayerIdleState :
     public CState
 {
 private:
-    float timer = 0.f;
+    CPlayer* player;
 
 public:
     virtual void Enter() override;
     virtual void FinalTick() override;
     virtual void Exit() override;
 
-public:
     CLONE(CPlayerIdleState);
     CPlayerIdleState();
     ~CPlayerIdleState();

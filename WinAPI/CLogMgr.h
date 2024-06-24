@@ -31,4 +31,3 @@ public:
 							CLogMgr::Get()->AddLog(tLog{ szBuff, Level, 0.f });\
 						}
 
-

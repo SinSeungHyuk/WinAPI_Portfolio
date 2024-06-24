@@ -47,9 +47,9 @@ public:
     virtual void FinalTick() final;
     virtual void Render();
 
-    virtual void BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {};
-    virtual void Overlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {};
-    virtual void EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider) {};
+    virtual void BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider) {};
+    virtual void Overlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider) {};
+    virtual void EndOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider) {};
 
 public:
     virtual CObj* Clone() = 0;

@@ -7,6 +7,8 @@
 #include "CLevel.h"
 #include "CPlayer.h"
 #include "CTimeMgr.h"
+#include "CAnimator.h"
+
 
 class CState :
     public CBase

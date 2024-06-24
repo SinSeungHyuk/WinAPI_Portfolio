@@ -1,41 +1,42 @@
 #include "pch.h"
 #include "CMonster.h"
+#include "CPlayer.h"
+#include "CPlatform.h"
+#include "MonsterData.h"
+#include "CLogMgr.h"
 
 
 #include "CEngine.h"
-#include "CAssetMgr.h"
-#include "CCollider.h"
-#include "CTimeMgr.h"
+#include "CAnimator.h"
+#include "CRigidBody.h"
 
-#include "CTexture.h"
-
-#include "CMonsterStateMachine.h"
+#include "DeathEventStrategy.h"
 
 
 
-CMonster::CMonster()
-	: m_Texture(nullptr)
-	, m_HP(5)
-	, m_Info{}
+CMonster::CMonster(int hp, float speed, float range,DeathEventStrategy* deathEvent)
+	: collider(nullptr), rigidbody(nullptr), animator(nullptr), deathEvent(deathEvent), isMonsterLeft(false)
 {
-	m_Info.DetectRange = 300.f;
-	m_Info.Speed = 100.f;
+	monsterData = new MonsterData( hp,speed,range);
 
-
-	m_Collider = AddComponent(new CCollider);
-	m_Collider->SetScale(Vec2(200.f, 200.f));
-
-	stateMachine = AddComponent(new CMonsterStateMachine);
+	// RigidBody
+	rigidbody = AddComponent(new CRigidBody);
+	rigidbody->SetMass(1.f);
+	rigidbody->SetMaxSpeed(300.f);
+	rigidbody->SetFriction(1000.f);
+	rigidbody->SetMaxGravitySpeed(1500.f);
 }
 
 CMonster::CMonster(const CMonster& _Other)
 	: CObj(_Other)
-	, m_Info(_Other.m_Info)
-	, m_Texture(_Other.m_Texture)
-	, m_Collider(nullptr)
-	, m_HP(_Other.m_HP)
+	, monsterData(_Other.monsterData)
+	, collider(nullptr)
+	, rigidbody(nullptr)
+	, animator(nullptr)
+	, deathEvent(_Other.deathEvent)
+	, isMonsterLeft(_Other.isMonsterLeft)
 {
-	m_Collider = GetComponent<CCollider>();
+
 }
 
 CMonster::~CMonster()
@@ -49,47 +50,77 @@ void CMonster::Tick()
 
 void CMonster::Render()
 {
-	HDC dc = CEngine::Get()->GetBackDC();
+	animator->Render();
 
-	Vec2 vPos = GetRenderPos();	
-	UINT width = m_Texture->GetWidth();
-	UINT height = m_Texture->GetHeight();
-	
-	// TransparentBlt
-	/*{
-		TransparentBlt(BackDC, (int)vPos.x - width / 2, (int)vPos.y - height / 2
-			, width, height, m_Texture->GetDC(), 0, 0, width, height, RGB(255, 0, 255));
-	}*/
+	//HDC dc = CEngine::Get()->GetBackDC();
 
-	// AlphaBlending
+	//Vec2 vPos = GetRenderPos();	
+	//UINT width = m_Texture->GetWidth();
+	//UINT height = m_Texture->GetHeight();
+	//
+	//// TransparentBlt
+	///*{
+	//	TransparentBlt(BackDC, (int)vPos.x - width / 2, (int)vPos.y - height / 2
+	//		, width, height, m_Texture->GetDC(), 0, 0, width, height, RGB(255, 0, 255));
+	//}*/
+
+	//// AlphaBlending
+	//{
+	//	BLENDFUNCTION blend = {};
+	//	blend.BlendOp = AC_SRC_OVER;
+	//	blend.BlendFlags = 0;
+	//	blend.SourceConstantAlpha = 255;
+	//	blend.AlphaFormat = AC_SRC_ALPHA;
+	//			
+	//	AlphaBlend(BackDC, (int)vPos.x - width / 2, (int)vPos.y - height / 2
+	//			  , width, height, m_Texture->GetDC(), 0, 0, width, height, blend);
+	//}
+}
+
+void CMonster::BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider)
+{
+	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
+	if (player) {
+		int playerPos = player->GetPrevPos().y;
+		int monsterPos = GetPos().y - GetScale().y;
+
+		if (playerPos <= monsterPos) {
+			deathEvent->OnDeath(*this);
+			DeleteObject(this);
+		}
+
+		else {
+			//player->Dead(); // 몬스터를 위에서 밟지 않으면 플레이어 사망
+		}
+	}
+
+	// 여기서는 기본적으로 모든 몬스터들이 땅 위에 올라서거나 위에 부딪힘
+	CPlatform* platform = dynamic_cast<CPlatform*>(otherObj);
+	if (platform)
 	{
-		BLENDFUNCTION blend = {};
-		blend.BlendOp = AC_SRC_OVER;
-		blend.BlendFlags = 0;
-		blend.SourceConstantAlpha = 255;
-		blend.AlphaFormat = AC_SRC_ALPHA;
-				
-		AlphaBlend(BackDC, (int)vPos.x - width / 2, (int)vPos.y - height / 2
-				  , width, height, m_Texture->GetDC(), 0, 0, width, height, blend);
+		float platformPosUp = platform->GetPos().y - platform->GetScale().y * 0.49;
+		float platformPosDown = platform->GetPos().y + platform->GetScale().y * 0.49;
+		float posUp = GetPos().y - GetScale().y;
+		float posDown = GetPos().y;
+
+		// 아래에서 위로 올라왔을때 부딪힘
+		if (posUp - platformPosDown > 0.f)
+			rigidbody->SetGravityVelocity(Vec2(0.f, 0.f));
+		// 위에서 아래로 내려왔을때 부딪힘
+		else if (posDown - platformPosUp <= 0.f)
+			rigidbody->SetGround(true); // 바닥 윗면에 있을 경우 SetGround(true)
 	}
 }
 
-void CMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)
+void CMonster::EndOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider)
 {
-	return;
-
-	/*if (L"Player" == _OtherObj->GetName())
+	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
+	if (player)
 	{
-		DeleteObject(this);
-	}*/
+		CRigidBody* playerRigidbody = player->GetComponent<CRigidBody>();
+		if (overlapType == OVERLAP_TYPE::IS_COLLISION_DOWN)
+			playerRigidbody->SetGround(false); // 바닥 윗면에 있다가 떨어질 경우 SetGround(false)
 
-	if (L"Missile" == _OtherObj->GetName())
-	{
-		m_HP -= 1;
-
-		if (m_HP <= 0)
-		{
-			DeleteObject(this);
-		}
+		player->SetCollisionType(overlapType, false);
 	}
 }

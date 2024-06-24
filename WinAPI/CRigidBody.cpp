@@ -6,19 +6,20 @@
 
 CRigidBody::CRigidBody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
-	, m_Mode(RIGIDBODY_MODE::TOPVIEW)
 	, m_MaxSpeed(0.f)
 	, m_IsMove(false)
 	, m_Friction(0.f)
 	, m_UseGravity(true)
 	, m_GravityAccel(1500.f)
+	, m_GravityMaxSpeed(0.f)
 	, m_JumpSpeed(300.f)
+	, m_IsGound(false)
+	, m_Mass(0.f)
 {
 }
 
 CRigidBody::CRigidBody(const CRigidBody& _Other)
 	: CComponent(_Other)
-	, m_Mode(_Other.m_Mode)    
 	, m_Mass(_Other.m_Mass)
 	, m_Friction(_Other.m_Friction)
 	, m_MaxSpeed(_Other.m_MaxSpeed)
@@ -76,28 +77,23 @@ void CRigidBody::FinalTick()
 
 
 	Vec2 vFinalVelocity = m_Velocity;
-
-	// RigidBody 가 Plarformer 모드인경우
-	if (m_Mode == RIGIDBODY_MODE::PLATFOMER)
+	// 중력기능 On
+	if (m_UseGravity && !m_IsGound)
 	{
-		// 중력기능 On
-		if (m_UseGravity && !m_IsGound)
+		m_GravityVelocity += Vec2(0.f, 1.f) * m_GravityAccel * DT;
+		if (m_GravityMaxSpeed < m_GravityVelocity.Length())
 		{
-			m_GravidyVelocity += Vec2(0.f, 1.f) * m_GravityAccel * DT;
-			if (m_GravityMaxSpeed < m_GravidyVelocity.Length())
-			{
-				m_GravidyVelocity.Normalize();
-				m_GravidyVelocity *= m_GravityMaxSpeed;
-			}
-
-			vFinalVelocity += m_GravidyVelocity;
+			m_GravityVelocity.Normalize();
+			m_GravityVelocity *= m_GravityMaxSpeed;
 		}
-		// 중력기능 Off
-		else
-		{
-			m_GravidyVelocity = Vec2(0.f, 0.f);
-		}		
+
+		vFinalVelocity += m_GravityVelocity;
 	}
+	// 중력기능 Off
+	else
+	{
+		m_GravityVelocity = Vec2(0.f, 0.f);
+	}		
 
 
 	// 속도에 따른 물체의 이동 발생
@@ -124,12 +120,12 @@ void CRigidBody::SetGround(bool _Ground)
 
 	if (m_IsGound)
 	{
-		m_GravidyVelocity = Vec2(0.f, 0.f);
+		m_GravityVelocity = Vec2(0.f, 0.f);
 	}
 }
 
 void CRigidBody::Jump()
 {	
-	m_GravidyVelocity += (Vec2(0.f, -1.f) * m_JumpSpeed);
+	m_GravityVelocity += (Vec2(0.f, -1.f) * m_JumpSpeed);
 	m_IsGound = false;
 }

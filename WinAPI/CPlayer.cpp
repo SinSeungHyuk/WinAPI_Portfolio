@@ -7,7 +7,6 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CMissile.h"
-#include "CGuidedMissile.h"
 
 #include "CKeyMgr.h"
 #include "CTaskMgr.h"
@@ -27,43 +26,44 @@
 #include "CLogMgr.h"
 
 CPlayer::CPlayer()
-	: m_Speed(300.f)
-	, m_Texture(nullptr)
-	, m_Body(nullptr)
-	, m_Animator(nullptr)
-	, m_RigidBody(nullptr)
+	: speed(300.f)
+	, collider(nullptr)
+	, animator(nullptr)
+	, rigidbody(nullptr)
+	, isPlayerLeft(false)
 	, isCollisionUp(false)
 	, isCollisionDown(false)
 	, isCollisionLeft(false)
 	, isCollisionRight(false)
 {
 	// 컴포넌트 설정
-	m_Body = AddComponent(new CCollider);
-	m_Body->SetName(L"Body Collider");
-	m_Body->SetOffset(Vec2(0.f, -32.f));
-	m_Body->SetScale(Vec2(60.f, 64.f));
+	collider = AddComponent(new CCollider);
+	collider->SetName(L"Body Collider");
+	collider->SetOffset(Vec2(0.f, -32.f));
+	collider->SetScale(Vec2(60.f, 64.f));
 
 	// RigidBody
-	m_RigidBody = AddComponent(new CRigidBody);
-	m_RigidBody->SetMode(RIGIDBODY_MODE::PLATFOMER);
-	m_RigidBody->SetMass(1.f);
-	m_RigidBody->SetMaxSpeed(300.f);
-	m_RigidBody->SetFriction(1000.f);
-	m_RigidBody->SetMaxGravitySpeed(1500.f);
-	m_RigidBody->SetJumpSpeed(600.f);
+	rigidbody = AddComponent(new CRigidBody);
+	rigidbody->SetMass(1.f);
+	rigidbody->SetMaxSpeed(300.f);
+	rigidbody->SetFriction(1000.f);
+	rigidbody->SetMaxGravitySpeed(1500.f);
+	rigidbody->SetJumpSpeed(600.f);
+
+
 
 	// Player 에 Animator 컴포넌트 추가
-	m_Animator = AddComponent(new CAnimator);
+	animator = AddComponent(new CAnimator);
 
 	//tAnimDesc desc = {};
-	//desc.AnimName = L"RUN_RIGHT";
-	//desc.FPS = 20;
-	//desc.FrmCount = 11;
-	//desc.pAtlas = CAssetMgr::Get()->LoadTexture(L"VirtualGuy_RUN_RIGHT", L"texture\\Run.png");
-	//desc.SliceSize = Vec2(64.f, 64.f);
+	//desc.AnimName = L"HIT";
+	//desc.FPS = 10;
+	//desc.FrmCount = 7;
+	//desc.pAtlas = CAssetMgr::Get()->LoadTexture(L"VirtualGuy_HIT", L"texture\\Hit.png");
+	//desc.SliceSize = Vec2(32.f, 32.f);
 	//desc.StartLeftTop = Vec2(0.f, 0.f);	
 	//desc.animOffset = Vec2(0.f, -32.f);
-	//m_Animator->CreateAnimation(desc);
+	//animator->CreateAnimation(desc);
 	//
 	//desc.AnimName = L"RUN_LEFT";
 	//desc.pAtlas = CAssetMgr::Get()->LoadTexture(L"VirtualGuy_RUN_LEFT", L"texture\\Run_flip.png");
@@ -79,18 +79,21 @@ CPlayer::CPlayer()
 	//m_Animator->CreateAnimation(desc);
 	//
 	//// Animation 정보 저장하기
-	//m_Animator->SaveAnimation(L"animation\\Player\\");
+	//animator->SaveAnimation(L"animation\\Player\\");
 
-	m_Animator->LoadAnimation(L"animation\\Player\\IDLE_RIGHT.anim");
-	m_Animator->LoadAnimation(L"animation\\Player\\IDLE_LEFT.anim");
-	m_Animator->LoadAnimation(L"animation\\Player\\RUN_LEFT.anim");
-	m_Animator->LoadAnimation(L"animation\\Player\\RUN_RIGHT.anim");
+	animator->LoadAnimation(L"animation\\Player\\HIT.anim");
+	animator->LoadAnimation(L"animation\\Player\\HIT_LEFT.anim");
+	animator->LoadAnimation(L"animation\\Player\\IDLE_RIGHT.anim");
+	animator->LoadAnimation(L"animation\\Player\\IDLE_LEFT.anim");
+	animator->LoadAnimation(L"animation\\Player\\RUN_LEFT.anim");
+	animator->LoadAnimation(L"animation\\Player\\RUN_RIGHT.anim");
 
 	// Animation 플레이
-	m_Animator->Play(L"IDLE_RIGHT", true);
+	animator->Play(L"IDLE_RIGHT", true);
 
 	// 스테이트머신
 	stateMachine = AddComponent(new CPlayerStateMachine);
+	stateMachine->SetLayer();
 
 	// 카메라
 	mainCam = CCamera::Get();
@@ -98,13 +101,13 @@ CPlayer::CPlayer()
 
 CPlayer::CPlayer(const CPlayer& _Other)
 	: CObj(_Other)
-	, m_Body(nullptr)
-	, m_Animator(nullptr)
-	, m_RigidBody(nullptr)
+	, collider(nullptr)
+	, animator(nullptr)
+	, rigidbody(nullptr)
 {
-	m_Body = (CCollider*)GetComponentByName(L"Body Collider");
-	m_Animator = GetComponent<CAnimator>();
-	m_RigidBody = GetComponent<CRigidBody>();
+	collider = (CCollider*)GetComponentByName(L"Body Collider");
+	animator = GetComponent<CAnimator>();
+	rigidbody = GetComponent<CRigidBody>();
 }
 
 CPlayer::~CPlayer()
@@ -114,24 +117,25 @@ CPlayer::~CPlayer()
 
 void CPlayer::Tick()
 {
-	float fDT = CTimeMgr::Get()->GetDeltaTime();
 	Vec2 pos = GetPos();
 	prevPos = pos;
 
+	if (KEY_RELEASED(KEY::A) || KEY_RELEASED(KEY::D))
+		stateMachine->ChangeState(L"IdleState", 0);
+	if (KEY_TAP(KEY::A)) {
+		isPlayerLeft = true;		
+		stateMachine->ChangeState(L"MoveState", 0);
+	}
+	if (KEY_TAP(KEY::D)) {
+		isPlayerLeft = false;
+		stateMachine->ChangeState(L"MoveState", 0);
+	}
 
-	if (KEY_TAP(KEY::A))
-		m_Animator->Play(L"RUN_LEFT", true);
-	if (KEY_RELEASED(KEY::A))
-		m_Animator->Play(L"IDLE_LEFT", true);
 	if (KEY_PRESSED(KEY::A) && !isCollisionLeft)
-		pos.x -= m_Speed * DT;
-
-	if (KEY_TAP(KEY::D))
-		m_Animator->Play(L"RUN_RIGHT", true);
-	if (KEY_RELEASED(KEY::D))
-		m_Animator->Play(L"IDLE_RIGHT", true);
+		pos.x -= speed * DT;
 	if (KEY_PRESSED(KEY::D) && !isCollisionRight)
-		pos.x += m_Speed * DT;
+		pos.x += speed * DT;
+
 
 	//if (KEY_TAP(KEY::W))
 	//{
@@ -149,7 +153,7 @@ void CPlayer::Tick()
 
 	if (KEY_TAP(KEY::SPACE))
 	{
-		m_RigidBody->Jump();
+		rigidbody->Jump();
 	}
 
 	SetPos(pos);
@@ -159,7 +163,7 @@ void CPlayer::Tick()
 
 void CPlayer::Render()
 {
-	m_Animator->Render();
+	animator->Render();
 }
 
 void CPlayer::SetCollisionType(OVERLAP_TYPE type, bool isCollision) {
@@ -208,4 +212,9 @@ void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _O
 	{
 
 	}
+}
+
+void CPlayer::Dead()
+{
+	DeleteObject(this);
 }

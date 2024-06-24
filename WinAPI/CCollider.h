@@ -15,6 +15,7 @@ private:
     Vec2            m_OffsetPos;
     Vec2            m_FinalPos;
     Vec2            m_Scale;
+    bool            isTrigger;
     int             m_OverlapCount;
 
     COLLIDER_STATE  m_State;
@@ -25,6 +26,9 @@ public:
 
     Vec2 GetFinalPos() { return m_FinalPos; }
     Vec2 GetScale() { return m_Scale; }
+
+    void SetTrigger(bool isTrigger) { this->isTrigger = isTrigger; }
+    bool GetTrigger() { return isTrigger; }
 
     COLLIDER_STATE GetState() { return m_State; }
     bool IsActive() { return m_State == ACTIVE; }
@@ -44,7 +48,9 @@ public:
     void Overlap(CCollider* _Other);
     void EndOverlap(CCollider* _Other);
 
-
+    //void OnTriggerEnter(CCollider* _Other);
+    //void OnTriggerStay(CCollider* _Other);
+    //void OnTriggerExit(CCollider* _Other);
 
 public:
     CLONE(CCollider);

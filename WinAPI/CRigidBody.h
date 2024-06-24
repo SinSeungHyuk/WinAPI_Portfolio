@@ -2,20 +2,14 @@
 
 #include "CComponent.h"
 
-enum class RIGIDBODY_MODE
-{
-    TOPVIEW,
-    PLATFOMER,
-};
 
 class CRigidBody :
     public CComponent
 {
 private:
-    RIGIDBODY_MODE      m_Mode;
     Vec2                m_Force;            // 누적 힘 (크기 + 방향)
     Vec2                m_Velocity;         // 속도    (크기 + 방향)
-    Vec2                m_GravidyVelocity;
+    Vec2                m_GravityVelocity;
     float               m_Mass;             // 질량
     float               m_Friction;         // 마찰계수
     float               m_MaxSpeed;         // 최대 속력 제한
@@ -33,11 +27,11 @@ public:
     void SetVelocity(Vec2 _Velocity) { m_Velocity = _Velocity; }
     void AddVelociy(Vec2 _Velocity) { m_Velocity += _Velocity; }
     void SetFriction(float _Friction) { m_Friction = _Friction; }
-    void SetMode(RIGIDBODY_MODE _Mode) { m_Mode = _Mode; }
     void SetGravityAccelScale(float _Accel) { m_GravityAccel = _Accel; }
     void SetMaxGravitySpeed(float _Max) { m_GravityMaxSpeed = _Max; }
     void UseGravity(bool _Use) { m_UseGravity = _Use; }
     void SetJumpSpeed(float _Speed) { m_JumpSpeed = _Speed; }
+    void SetGravityVelocity(Vec2 velocity) { m_GravityVelocity = velocity; }
 
     void SetGround(bool _Ground);
 
@@ -46,7 +40,6 @@ public:
     Vec2 GetForce() { return m_Force; }
     float GetMass() { return m_Mass; }
     float GetMaxSpeed() { return m_MaxSpeed; }
-    RIGIDBODY_MODE GetMode() { return m_Mode; } 
     bool IsMove() { return m_IsMove; }
 
 public:

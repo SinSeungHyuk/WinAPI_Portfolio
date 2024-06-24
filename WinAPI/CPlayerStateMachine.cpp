@@ -6,9 +6,10 @@
 
 
 CPlayerStateMachine::CPlayerStateMachine()
+	: CStateMachine()
 {
 	AddStates();
-	SetLayer();
+	//SetLayer();
 }
 
 CPlayerStateMachine::~CPlayerStateMachine()
@@ -17,6 +18,6 @@ CPlayerStateMachine::~CPlayerStateMachine()
 
 void CPlayerStateMachine::AddStates()
 {
-	AddState(L"IdleState", new CPlayerIdleState, 0);
-	AddState(L"MoveState", new CPlayerMoveState, 1);
+	AddState(L"IdleState", new CPlayerIdleState, MovementLayer);
+	AddState(L"MoveState", new CPlayerMoveState, MovementLayer);
 }

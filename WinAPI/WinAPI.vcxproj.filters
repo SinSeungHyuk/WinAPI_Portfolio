@@ -146,6 +146,21 @@
     <Filter Include="Game\08. Module\State\MovementStates">
       <UniqueIdentifier>{826f3dd3-54a7-4e6d-8ed3-31e717e5022e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\05. Object\02. Monster\PatrolMonster">
+      <UniqueIdentifier>{e25cbd61-96e2-4dba-9943-ec1386236271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\02. Monster\Strategy">
+      <UniqueIdentifier>{3817c3b1-515a-4592-8ddd-69b0effa228c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\02. Monster\Strategy\DeathEvent">
+      <UniqueIdentifier>{aea5c165-6a26-4f06-9ad9-2a8f10eeced4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\06. Component\05. StateMachine\MonsterStateMachine">
+      <UniqueIdentifier>{e4593a82-4269-4c4c-854f-0636c5e67b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\06. Component\05. StateMachine\PlayerStateMachine">
+      <UniqueIdentifier>{5fd54467-2887-4591-9742-51ed11fbaa0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -295,16 +310,31 @@
     <ClInclude Include="CState.h">
       <Filter>Game\08. Module\State</Filter>
     </ClInclude>
-    <ClInclude Include="CMonsterStateMachine.h">
-      <Filter>Game\06. Component\05. StateMachine</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerIdleState.h">
       <Filter>Game\08. Module\State\IdleStates</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerStateMachine.h">
-      <Filter>Game\06. Component\05. StateMachine</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerMoveState.h">
+      <Filter>Game\08. Module\State\MovementStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CPatrolMonster.h">
+      <Filter>Game\05. Object\02. Monster\PatrolMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterData.h">
+      <Filter>Game\05. Object\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathEventStrategy.h">
+      <Filter>Game\05. Object\02. Monster\Strategy\DeathEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDropEvent.h">
+      <Filter>Game\05. Object\02. Monster\Strategy\DeathEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="CPatrolStateMachine.h">
+      <Filter>Game\06. Component\05. StateMachine\MonsterStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerStateMachine.h">
+      <Filter>Game\06. Component\05. StateMachine\PlayerStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CPatrolState.h">
       <Filter>Game\08. Module\State\MovementStates</Filter>
     </ClInclude>
   </ItemGroup>
@@ -449,16 +479,31 @@
     <ClCompile Include="CState.cpp">
       <Filter>Game\08. Module\State</Filter>
     </ClCompile>
-    <ClCompile Include="CMonsterStateMachine.cpp">
-      <Filter>Game\06. Component\05. StateMachine</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerIdleState.cpp">
       <Filter>Game\08. Module\State\IdleStates</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerStateMachine.cpp">
-      <Filter>Game\06. Component\05. StateMachine</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerMoveState.cpp">
+      <Filter>Game\08. Module\State\MovementStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CPatrolMonster.cpp">
+      <Filter>Game\05. Object\02. Monster\PatrolMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterData.cpp">
+      <Filter>Game\05. Object\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathEventStrategy.cpp">
+      <Filter>Game\05. Object\02. Monster\Strategy\DeathEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemDropEvent.cpp">
+      <Filter>Game\05. Object\02. Monster\Strategy\DeathEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="CPatrolStateMachine.cpp">
+      <Filter>Game\06. Component\05. StateMachine\MonsterStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerStateMachine.cpp">
+      <Filter>Game\06. Component\05. StateMachine\PlayerStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CPatrolState.cpp">
       <Filter>Game\08. Module\State\MovementStates</Filter>
     </ClCompile>
   </ItemGroup>

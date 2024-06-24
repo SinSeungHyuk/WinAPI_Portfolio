@@ -1,0 +1,52 @@
+[ANIMATION_NAME]
+MASK_HIT
+
+[ATLAS_TEXTURE]
+MASK_HIT
+texture\Mask_Hit.png
+
+[FRAME_DATA]
+Frame_Count 7
+
+Frame_Index 0
+Left_Top    0.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+
+Frame_Index 1
+Left_Top    64.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+
+Frame_Index 2
+Left_Top    128.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+
+Frame_Index 3
+Left_Top    192.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+
+Frame_Index 4
+Left_Top    256.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+
+Frame_Index 5
+Left_Top    320.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+
+Frame_Index 6
+Left_Top    384.000000 0.000000
+Offset      0.000000 -32.000000
+Slice       64.000000 64.000000
+Duration    0.100000
+

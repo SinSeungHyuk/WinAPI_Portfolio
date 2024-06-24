@@ -1,20 +1,21 @@
 #include "pch.h"
 #include "CPlayerMoveState.h"
 #include "CTimeMgr.h"
+#include "CPlayer.h"
+
 
 void CPlayerMoveState::Enter()
 {
-	LOG(LOG_LEVEL::WARNING, L"Enter 1번 레이어");
+	player = GetOwner<CPlayer>();
+
+	if (player->IsPlayerLeft())
+		player->animator->Play(L"RUN_LEFT", true);
+	else 
+		player->animator->Play(L"RUN_RIGHT", true);
 }
 
 void CPlayerMoveState::FinalTick()
 {
-	timer += DT;
-
-	if (timer > 1.3f) {
-		LOG(LOG_LEVEL::LOG, L"1번 레이어");
-		timer = 0.f;
-	}
 	
 
 }
@@ -24,6 +25,7 @@ void CPlayerMoveState::Exit()
 }
 
 CPlayerMoveState::CPlayerMoveState()
+	: player(nullptr)
 {
 }
 
