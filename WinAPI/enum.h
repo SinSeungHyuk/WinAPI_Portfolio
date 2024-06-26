@@ -44,6 +44,7 @@ enum class LAYER_TYPE
 	PLAYER_PROJECTILE,
 	MONSTER,
 	MONSTER_PROJECTILE,
+	ITEM,
 
 
 	UI = 31,
@@ -95,4 +96,10 @@ enum class ANIMATION_TYPE {
 	MOVEMENT,
 	ATTACK,
 	DEAD,
+};
+
+enum class StateMachineLayer {
+	MovementLayer,
+	DetectLayer,
+	AttackLayer,
 };

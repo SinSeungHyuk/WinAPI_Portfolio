@@ -1,0 +1,40 @@
+[ANIMATION_NAME]
+Chicken_Hit
+
+[ATLAS_TEXTURE]
+Chicken_Hit
+texture\Chicken_Hit.png
+
+[FRAME_DATA]
+Frame_Count 5
+
+Frame_Index 0
+Left_Top    0.000000 0.000000
+Offset      0.000000 -34.000000
+Slice       64.000000 68.000000
+Duration    0.100000
+
+Frame_Index 1
+Left_Top    64.000000 0.000000
+Offset      0.000000 -34.000000
+Slice       64.000000 68.000000
+Duration    0.100000
+
+Frame_Index 2
+Left_Top    128.000000 0.000000
+Offset      0.000000 -34.000000
+Slice       64.000000 68.000000
+Duration    0.100000
+
+Frame_Index 3
+Left_Top    192.000000 0.000000
+Offset      0.000000 -34.000000
+Slice       64.000000 68.000000
+Duration    0.100000
+
+Frame_Index 4
+Left_Top    256.000000 0.000000
+Offset      0.000000 -34.000000
+Slice       64.000000 68.000000
+Duration    0.100000
+

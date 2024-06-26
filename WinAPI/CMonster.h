@@ -27,10 +27,12 @@ public:
     virtual void Tick() override;
     virtual void Render() override;
     virtual void BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider);
+    virtual void Overlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider);
     virtual void EndOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider);
 
     virtual void LoadAnimations() = 0; // 각 몬스터마다 필요한 애니메이션 가져오기
     virtual void PlayAnimation(ANIMATION_TYPE type) = 0; // 각 몬스터마다 애니메이션 이름이 다르므로 가상함수로 각자 구현
+    virtual void DetectPlayer(bool isDetected) {}; // 플레이어 감지 이벤트. 필요할때만 구현
 
     virtual CMonster* Clone() = 0;
     CMonster(int hp, float speed, float range, DeathEventStrategy* deathEvent);

@@ -14,7 +14,7 @@ void CreateObject(CObj* _Object, LAYER_TYPE _LayerType)
 	CTaskMgr::Get()->AddTask(task);
 }
 
-void DeleteObject(CObj* _Object)
+void Destroy(CObj* _Object)
 {
 	tTask task = {};
 	task.TaskType = TASK_TYPE::DELETE_OBJECT;

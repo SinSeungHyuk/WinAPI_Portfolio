@@ -72,5 +72,5 @@ void CForce::Tick()
 	m_AccTime += DT;
 
 	if (m_Duration < m_AccTime)
-		DeleteObject(this);
+		Destroy(this);
 }

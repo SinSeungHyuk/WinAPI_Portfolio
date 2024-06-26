@@ -35,17 +35,17 @@ void CCamera::Init()
 
 void CCamera::Tick()
 {
-	if (KEY_PRESSED(KEY::W))	
-		m_LookAt.y -= m_CamSpeed * DT;
+	//if (KEY_PRESSED(KEY::W))	
+	//	m_LookAt.y -= m_CamSpeed * DT;
 
-	if (KEY_PRESSED(KEY::S))
-		m_LookAt.y += m_CamSpeed * DT;
+	//if (KEY_PRESSED(KEY::S))
+	//	m_LookAt.y += m_CamSpeed * DT;
 
-	if (KEY_PRESSED(KEY::A))
-		m_LookAt.x -= m_CamSpeed * DT;
+	//if (KEY_PRESSED(KEY::A))
+	//	m_LookAt.x -= m_CamSpeed * DT;
 
-	if (KEY_PRESSED(KEY::D))
-		m_LookAt.x += m_CamSpeed * DT;
+	//if (KEY_PRESSED(KEY::D))
+	//	m_LookAt.x += m_CamSpeed * DT;
 
 	// 카메라 효과 동작
 	CameraEffect();

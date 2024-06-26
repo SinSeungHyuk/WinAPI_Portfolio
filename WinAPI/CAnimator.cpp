@@ -8,6 +8,7 @@ CAnimator::CAnimator()
 	: CComponent(COMPONENT_TYPE::ANIMATOR)
 	, m_CurAnim(nullptr)
 	, m_Repeat(false)
+	, isFinish(false)
 {
 
 }
@@ -16,6 +17,7 @@ CAnimator::CAnimator(const CAnimator& _Other)
 	: CComponent(_Other)	
 	, m_CurAnim(nullptr)
 	, m_Repeat(_Other.m_Repeat)
+	, isFinish(false)
 {
 	map<wstring, CAnim*>::const_iterator iter = _Other.m_mapAnim.begin();
 	for (; iter != _Other.m_mapAnim.end(); ++iter)
@@ -90,10 +92,12 @@ void CAnimator::FinalTick()
 	if (!m_CurAnim)
 		return;
 
+
 	if (m_Repeat && m_CurAnim->IsFinish())
 	{
 		m_CurAnim->Reset();
-	}
+	} else if (!m_Repeat && m_CurAnim->IsFinish())
+		isFinish = m_CurAnim->IsFinish();
 
 	m_CurAnim->FinalTick();
 }

@@ -4,13 +4,16 @@
 #include "CTimeMgr.h"
 #include "CEngine.h"
 #include "CCollider.h"
+#include "CTexture.h"
 
 CMissile::CMissile()
-	: m_Velocity(0.f, 0.f)
-	, m_Mass(1.f)
+	: velocity(0.f, 0.f)
+	, mass(1.f)
+	, speed(0.f)
+	, texture(nullptr)
 {
 	CCollider* pCollider = AddComponent(new CCollider);
-	pCollider->SetScale(Vec2(20.f, 20.f));
+	pCollider->SetScale(Vec2(200.f, 200.f));
 }
 
 CMissile::~CMissile()
@@ -21,25 +24,20 @@ void CMissile::Tick()
 {
 	Vec2 vPos = GetPos();
 
-	vPos += m_Velocity * DT;
+	vPos.x += velocity.x * speed * DT;
+	vPos.y += velocity.y * speed * DT;
 
 	SetPos(vPos);
 }
 
 void CMissile::Render()
 {
-	HDC dc = CEngine::Get()->GetBackDC();
-
 	Vec2 vPos = GetRenderPos();
-	Vec2 vScale = GetScale();
+	UINT width = texture->GetWidth();
+	UINT height = texture->GetHeight();
 
-	Ellipse(dc, vPos.x - (vScale.x / 2.f), vPos.y - (vScale.y / 2.f)
-		, vPos.x + (vScale.x / 2.f), vPos.y + (vScale.y / 2.f));
-
-	SELECT_PEN(dc, PEN_TYPE::MAGENTA);
-	Vec2 vEnd = vPos + m_Velocity / 4.f;
-	MoveToEx(dc, vPos.x, vPos.y, nullptr);
-	LineTo(dc, vEnd.x, vEnd.y);
+	TransparentBlt(BackDC, (int)vPos.x - 16.f, (int)vPos.y - 16.f
+		, width, height, texture->GetDC(), 0, 0, width, height, RGB(0, 0, 0));
 }
 
 void CMissile::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)

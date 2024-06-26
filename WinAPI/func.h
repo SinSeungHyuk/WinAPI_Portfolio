@@ -3,7 +3,7 @@
 class CObj;
 
 void CreateObject(CObj* _Object, LAYER_TYPE _LayerType);
-void DeleteObject(CObj* _Object);
+void Destroy(CObj* _Object);
 void ChangeLevel(LEVEL_TYPE _Type);
 
 void DrawDebugShape(DEBUG_SHAPE _Shape, PEN_TYPE _Pen, BRUSH_TYPE _Brush, Vec2 _vPos, Vec2 _vScale, float _Duration = 0.f);

@@ -12,6 +12,7 @@ private:
 
 public:
 	CLevel* GetCurrentLevel() { return m_CurLevel ; }
+	void ChangeLevel(LEVEL_TYPE _Type);
 
 public:
 	void Init();
@@ -19,7 +20,6 @@ public:
 	void Render();
 
 private:
-	void ChangeLevel(LEVEL_TYPE _Type);
 	friend class CTaskMgr;
 };
 

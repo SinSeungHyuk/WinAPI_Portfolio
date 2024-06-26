@@ -1,0 +1,46 @@
+[ANIMATION_NAME]
+COIN
+
+[ATLAS_TEXTURE]
+COIN
+texture\coin.png
+
+[FRAME_DATA]
+Frame_Count 6
+
+Frame_Index 0
+Left_Top    0.000000 0.000000
+Offset      0.000000 -16.000000
+Slice       32.000000 32.000000
+Duration    0.100000
+
+Frame_Index 1
+Left_Top    32.000000 0.000000
+Offset      0.000000 -16.000000
+Slice       32.000000 32.000000
+Duration    0.100000
+
+Frame_Index 2
+Left_Top    64.000000 0.000000
+Offset      0.000000 -16.000000
+Slice       32.000000 32.000000
+Duration    0.100000
+
+Frame_Index 3
+Left_Top    96.000000 0.000000
+Offset      0.000000 -16.000000
+Slice       32.000000 32.000000
+Duration    0.100000
+
+Frame_Index 4
+Left_Top    128.000000 0.000000
+Offset      0.000000 -16.000000
+Slice       32.000000 32.000000
+Duration    0.100000
+
+Frame_Index 5
+Left_Top    160.000000 0.000000
+Offset      0.000000 -16.000000
+Slice       32.000000 32.000000
+Duration    0.100000
+

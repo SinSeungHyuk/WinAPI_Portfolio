@@ -10,6 +10,7 @@ public:
 	MonsterData(int hp, float speed, float range);
 
 	void SetHP(int value) { hp = value; }
+	void TakeDamage(int value) { hp-=value; }
 	int GetHP() { return hp; }
 
 	void SetSpeed(int value) { speed = value; }

@@ -82,15 +82,13 @@ void CMonster::BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _
 	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
 	if (player) {
 		int playerPos = player->GetPrevPos().y;
-		int monsterPos = GetPos().y - GetScale().y;
+		int monsterPos = GetPos().y - GetScale().y + 1.0f;
 
-		if (playerPos <= monsterPos) {
+		if (playerPos <= monsterPos) 
 			deathEvent->OnDeath(*this);
-			DeleteObject(this);
-		}
-
 		else {
 			//player->Dead(); // 몬스터를 위에서 밟지 않으면 플레이어 사망
+			LOG(LOG_LEVEL::LOG, L"플레이어 사망");
 		}
 	}
 
@@ -98,8 +96,8 @@ void CMonster::BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _
 	CPlatform* platform = dynamic_cast<CPlatform*>(otherObj);
 	if (platform)
 	{
-		float platformPosUp = platform->GetPos().y - platform->GetScale().y * 0.49;
-		float platformPosDown = platform->GetPos().y + platform->GetScale().y * 0.49;
+		float platformPosUp = platform->GetPos().y - platform->GetScale().y * 0.45;
+		float platformPosDown = platform->GetPos().y + platform->GetScale().y * 0.45;
 		float posUp = GetPos().y - GetScale().y;
 		float posDown = GetPos().y;
 
@@ -112,15 +110,19 @@ void CMonster::BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _
 	}
 }
 
+void CMonster::Overlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider)
+{
+	if (otherObj->GetLayerType() == (int)LAYER_TYPE::PLATFORM)
+	{
+		rigidbody->SetGround(true);
+	}
+}
+
 void CMonster::EndOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* _OtherCollider)
 {
-	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
-	if (player)
+	CPlatform* platform = dynamic_cast<CPlatform*>(otherObj);
+	if (platform)
 	{
-		CRigidBody* playerRigidbody = player->GetComponent<CRigidBody>();
-		if (overlapType == OVERLAP_TYPE::IS_COLLISION_DOWN)
-			playerRigidbody->SetGround(false); // 바닥 윗면에 있다가 떨어질 경우 SetGround(false)
-
-		player->SetCollisionType(overlapType, false);
+		rigidbody->SetGround(false); // 바닥 윗면에 있다가 떨어질 경우 SetGround(false)
 	}
 }

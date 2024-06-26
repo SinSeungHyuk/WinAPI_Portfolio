@@ -3,6 +3,7 @@
 
 #include "CEngine.h"
 #include "CKeyMgr.h"
+#include "CTexture.h"
 
 CUI::CUI()
 	: m_Parent(nullptr)
@@ -78,12 +79,12 @@ void CUI::Render_UI()
 		Pen = PEN_TYPE::RED;
 	}
 
-	SELECT_PEN(BackDC, Pen);
-	SELECT_BRUSH(BackDC, BRUSH_TYPE::HOLLOW);
+	//SELECT_PEN(BackDC, Pen);
+	//SELECT_BRUSH(BackDC, BRUSH_TYPE::HOLLOW);
 
-	Vec2 vScale = GetScale();
-	Rectangle(BackDC, (int)m_FinalPos.x, (int)m_FinalPos.y
-		, (int)m_FinalPos.x + (int)vScale.x, (int)m_FinalPos.y + (int)vScale.y);
+	//Vec2 vScale = GetScale();
+	//Rectangle(BackDC, (int)m_FinalPos.x, (int)m_FinalPos.y
+	//	, (int)m_FinalPos.x + (int)vScale.x, (int)m_FinalPos.y + (int)vScale.y);
 }
 
 void CUI::MouseOnCheck()

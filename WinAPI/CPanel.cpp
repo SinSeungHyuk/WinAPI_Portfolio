@@ -41,13 +41,13 @@ void CPanel::Render_UI()
 		Pen = PEN_TYPE::RED;
 	}
 
-	SELECT_PEN(BackDC, Pen);
-	SELECT_BRUSH(BackDC, BRUSH_TYPE::TURQUOISE);
+	//SELECT_PEN(BackDC, Pen);
+	//SELECT_BRUSH(BackDC, BRUSH_TYPE::TURQUOISE);
 
-	Vec2 vFinalPos = GetFinalPos();
-	Vec2 vScale = GetScale();
-	Rectangle(BackDC, (int)vFinalPos.x, (int)vFinalPos.y
-		, (int)vFinalPos.x + (int)vScale.x, (int)vFinalPos.y + (int)vScale.y);
+	//Vec2 vFinalPos = GetFinalPos();
+	//Vec2 vScale = GetScale();
+	//Rectangle(BackDC, (int)vFinalPos.x, (int)vFinalPos.y
+	//	, (int)vFinalPos.x + (int)vScale.x, (int)vFinalPos.y + (int)vScale.y);
 }
 
 void CPanel::BeginHovered()

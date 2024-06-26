@@ -6,19 +6,20 @@
 #include "CRigidBody.h"
 #include "CTexture.h"
 #include "CAssetMgr.h"
+#include "CLevelMgr.h"
 #include "CEngine.h"
 
 CPlatform::CPlatform()
-	: m_Collider(nullptr), texture(nullptr)
+	: collider(nullptr), texture(nullptr)
 {
-	m_Collider = AddComponent(new CCollider);
+	collider = AddComponent(new CCollider);
 }
 
 CPlatform::CPlatform(const CPlatform& _Other)
 	: CObj(_Other)
-	, m_Collider(nullptr), texture(nullptr)
+	, collider(nullptr), texture(nullptr)
 {
-	m_Collider = GetComponent<CCollider>();
+	collider = GetComponent<CCollider>();
 	texture = GetComponent<CTexture>();
 }
 
@@ -31,9 +32,9 @@ void CPlatform::SetScale(Vec2 _Scale)
 {
 	CObj::SetScale(_Scale);
 
-	if (m_Collider)
+	if (collider)
 	{
-		m_Collider->SetScale(_Scale);
+		collider->SetScale(_Scale);
 	}
 }
 
@@ -41,9 +42,9 @@ void CPlatform::SetScale(float _Width, float _Height)
 {
 	CObj::SetScale(_Width, _Height);
 
-	if (m_Collider)
+	if (collider)
 	{
-		m_Collider->SetScale(Vec2(_Width, _Height));
+		collider->SetScale(Vec2(_Width, _Height));
 	}
 }
 
@@ -54,20 +55,21 @@ void CPlatform::Tick()
 
 void CPlatform::BeginOverlap(CCollider* ownCollider, CObj* otherObj, CCollider* otherCollider)
 {
-	if (ownCollider->GetTrigger()) {
+	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
 
+	if (collider->GetTrigger() && player) {
+
+		return;
 	}
 
-
-	CPlayer* player = dynamic_cast<CPlayer*>(otherObj);
 	if (player)
 	{
 		CRigidBody* playerRigidbody = player->GetComponent<CRigidBody>();
 
  		float playerPosUp = player->GetPos().y - player->GetScale().y;
 		float playerPosDown = player->GetPos().y;
-		float platformPosUp = GetPos().y - GetScale().y * 0.49;
-		float platformPosDown = GetPos().y + GetScale().y * 0.49;
+		float platformPosUp = GetPos().y - GetScale().y * 0.45;
+		float platformPosDown = GetPos().y + GetScale().y * 0.45;
 
 		// 아래에서 위로 올라왔을때 부딪힘
 		if (playerPosUp - platformPosDown > 0.f) {

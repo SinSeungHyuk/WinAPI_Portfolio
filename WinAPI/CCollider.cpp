@@ -8,6 +8,7 @@
 
 CCollider::CCollider()
 	: CComponent(COMPONENT_TYPE::COLLIDER)
+	, isTrigger(false)
 	, m_OverlapCount(0)
 	, m_State(ACTIVE)
 {
@@ -17,6 +18,7 @@ CCollider::CCollider(const CCollider& _Other)
 	: CComponent(_Other)
 	, m_OffsetPos(_Other.m_OffsetPos)
 	, m_Scale(_Other.m_Scale)
+	, isTrigger(_Other.isTrigger)
 	, m_OverlapCount(0)
 	, m_State(_Other.m_State)
 {

@@ -12,7 +12,7 @@
 #include "CTaskMgr.h"
 #include "CEngine.h"
 #include "CPathMgr.h"
-
+#include "CGameManager.h"
 #include "CAssetMgr.h"
 #include "CTexture.h"
 
@@ -48,7 +48,7 @@ CPlayer::CPlayer()
 	rigidbody->SetMaxSpeed(300.f);
 	rigidbody->SetFriction(1000.f);
 	rigidbody->SetMaxGravitySpeed(1500.f);
-	rigidbody->SetJumpSpeed(600.f);
+	rigidbody->SetJumpSpeed(800.f);
 
 
 
@@ -137,21 +137,25 @@ void CPlayer::Tick()
 		pos.x += speed * DT;
 
 
-	//if (KEY_TAP(KEY::W))
-	//{
-	//	if (m_RigidBody->GetMode() == RIGIDBODY_MODE::PLATFOMER) {
-	//		CMissile* pMissile = new CMissile;
-	//		pMissile->SetName(L"Missile");
-	//		pMissile->SetPos(GetPos().x, GetPos().y - GetScale().y / 2.f);
-	//		pMissile->SetScale(20.f, 20.f);
-	//		pMissile->SetVelocity(Vec2(0, -1), 500.f);
+	if (KEY_TAP(KEY::LBTN))
+	{
+		Vec2 mousePos = CKeyMgr::Get()->GetMousePos();
+		// 방향벡터 (마우스 포지션이 스크린좌표이므로 플레이어도 RenderPos)
+		Vec2 dirVec = mousePos - GetRenderPos(); 
 
-	//		CreateObject(pMissile, LAYER_TYPE::PLAYER_PROJECTILE);
-	//	}
-	//}
+		CMissile* pMissile = new CMissile;
+		pMissile->SetName(L"Missile");
+		pMissile->SetTexture(CAssetMgr::Get()->LoadTexture(L"circle", L"texture\\Missile.png"));
+		pMissile->SetPos(GetPos().x, GetPos().y - GetScale().y / 2.f);
+		pMissile->SetVelocity(dirVec, 500.f);
+
+		CreateObject(pMissile, LAYER_TYPE::PLAYER_PROJECTILE);
+
+		CGameManager::Get()->UseGem();
+	}
 
 
-	if (KEY_TAP(KEY::SPACE))
+	if (KEY_TAP(KEY::SPACE) && rigidbody->GetGround())
 	{
 		rigidbody->Jump();
 	}
@@ -216,5 +220,5 @@ void CPlayer::EndOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _O
 
 void CPlayer::Dead()
 {
-	DeleteObject(this);
+	Destroy(this);
 }

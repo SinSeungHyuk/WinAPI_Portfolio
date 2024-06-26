@@ -161,6 +161,33 @@
     <Filter Include="Game\06. Component\05. StateMachine\PlayerStateMachine">
       <UniqueIdentifier>{5fd54467-2887-4591-9742-51ed11fbaa0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\05. Object\02. Monster\TraceMonster">
+      <UniqueIdentifier>{1de738db-80da-4ae8-9d3b-d85662b547b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\08. Module\State\DetectStates">
+      <UniqueIdentifier>{1007ee89-83ad-415c-baf5-d6d791af5c0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\02. Monster\ProjectileMonster">
+      <UniqueIdentifier>{b45e856c-3075-4f9d-a885-cc61fd529176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\03. Manager\14. GameManager">
+      <UniqueIdentifier>{9fe19a9e-6878-4d97-9ea9-402c382637a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\07. UI\3. Image">
+      <UniqueIdentifier>{bd5ac111-74e5-4577-8473-59bcd361560d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\08. Item">
+      <UniqueIdentifier>{dfd3e88f-c227-49a9-bd0e-4123ad9295ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\08. Item\1. Coin">
+      <UniqueIdentifier>{d5593569-4eae-473f-a68d-59d6d8855939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\08. Item\2. Gem">
+      <UniqueIdentifier>{07fbc729-990e-48bf-b20c-acd86ba98ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\08. Item\3. Point">
+      <UniqueIdentifier>{cefce861-fec1-47b0-a9f7-f3bc802edfe9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -337,6 +364,45 @@
     <ClInclude Include="CPatrolState.h">
       <Filter>Game\08. Module\State\MovementStates</Filter>
     </ClInclude>
+    <ClInclude Include="CTraceMonster.h">
+      <Filter>Game\05. Object\02. Monster\TraceMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="CTraceStateMachine.h">
+      <Filter>Game\06. Component\05. StateMachine\MonsterStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CTracePlayerState.h">
+      <Filter>Game\08. Module\State\MovementStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CDetectePlayerState.h">
+      <Filter>Game\08. Module\State\DetectStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CProjectileMonster.h">
+      <Filter>Game\05. Object\02. Monster\ProjectileMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="CProjectileStateMachine.h">
+      <Filter>Game\06. Component\05. StateMachine\MonsterStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="CProjectileState.h">
+      <Filter>Game\08. Module\State\DetectStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameManager.h">
+      <Filter>Game\03. Manager\14. GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CImage.h">
+      <Filter>Game\05. Object\07. UI\3. Image</Filter>
+    </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>Game\05. Object\08. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CCoinItem.h">
+      <Filter>Game\05. Object\08. Item\1. Coin</Filter>
+    </ClInclude>
+    <ClInclude Include="CEndPointItem.h">
+      <Filter>Game\05. Object\08. Item\3. Point</Filter>
+    </ClInclude>
+    <ClInclude Include="CGemItem.h">
+      <Filter>Game\05. Object\08. Item\2. Gem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI.rc">
@@ -505,6 +571,45 @@
     </ClCompile>
     <ClCompile Include="CPatrolState.cpp">
       <Filter>Game\08. Module\State\MovementStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CTraceMonster.cpp">
+      <Filter>Game\05. Object\02. Monster\TraceMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="CTraceStateMachine.cpp">
+      <Filter>Game\06. Component\05. StateMachine\MonsterStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CTracePlayerState.cpp">
+      <Filter>Game\08. Module\State\MovementStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CDetectePlayerState.cpp">
+      <Filter>Game\08. Module\State\DetectStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CProjectileMonster.cpp">
+      <Filter>Game\05. Object\02. Monster\ProjectileMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="CProjectileStateMachine.cpp">
+      <Filter>Game\06. Component\05. StateMachine\MonsterStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="CProjectileState.cpp">
+      <Filter>Game\08. Module\State\DetectStates</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameManager.cpp">
+      <Filter>Game\03. Manager\14. GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CImage.cpp">
+      <Filter>Game\05. Object\07. UI\3. Image</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>Game\05. Object\08. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CCoinItem.cpp">
+      <Filter>Game\05. Object\08. Item\1. Coin</Filter>
+    </ClCompile>
+    <ClCompile Include="CEndPointItem.cpp">
+      <Filter>Game\05. Object\08. Item\3. Point</Filter>
+    </ClCompile>
+    <ClCompile Include="CGemItem.cpp">
+      <Filter>Game\05. Object\08. Item\2. Gem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

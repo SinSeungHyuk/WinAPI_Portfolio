@@ -24,6 +24,7 @@ private:
     map<wstring, CAnim*>    m_mapAnim;
     CAnim*                  m_CurAnim;
     bool                    m_Repeat;
+    bool                    isFinish;
 
 public:
     void CreateAnimation(const tAnimDesc& _Info);
@@ -34,7 +35,8 @@ public:
 
     void LoadAnimation(const wstring& _RelativePath);
 
-public:
+    bool IsFinish() { return isFinish; }
+
     virtual void FinalTick() override;
 
 public:

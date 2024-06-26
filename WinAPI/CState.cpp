@@ -2,6 +2,7 @@
 #include "CState.h"
 
 CState::CState()
+	: owner(nullptr)
 {
 }
 

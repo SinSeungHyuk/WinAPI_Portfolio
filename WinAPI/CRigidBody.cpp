@@ -13,7 +13,7 @@ CRigidBody::CRigidBody()
 	, m_GravityAccel(1500.f)
 	, m_GravityMaxSpeed(0.f)
 	, m_JumpSpeed(300.f)
-	, m_IsGound(false)
+	, isGround(false)
 	, m_Mass(0.f)
 {
 }
@@ -27,7 +27,7 @@ CRigidBody::CRigidBody(const CRigidBody& _Other)
     , m_GravityMaxSpeed(_Other.m_GravityMaxSpeed)
     , m_JumpSpeed(_Other.m_JumpSpeed)
     , m_IsMove(false)
-    , m_IsGound(false)
+    , isGround(false)
     , m_UseGravity(_Other.m_UseGravity)
 {
 }
@@ -78,7 +78,7 @@ void CRigidBody::FinalTick()
 
 	Vec2 vFinalVelocity = m_Velocity;
 	// 중력기능 On
-	if (m_UseGravity && !m_IsGound)
+	if (m_UseGravity && !isGround)
 	{
 		m_GravityVelocity += Vec2(0.f, 1.f) * m_GravityAccel * DT;
 		if (m_GravityMaxSpeed < m_GravityVelocity.Length())
@@ -116,9 +116,9 @@ void CRigidBody::FinalTick()
 
 void CRigidBody::SetGround(bool _Ground)
 {
-	m_IsGound = _Ground;
+	isGround = _Ground;
 
-	if (m_IsGound)
+	if (isGround)
 	{
 		m_GravityVelocity = Vec2(0.f, 0.f);
 	}
@@ -127,5 +127,5 @@ void CRigidBody::SetGround(bool _Ground)
 void CRigidBody::Jump()
 {	
 	m_GravityVelocity += (Vec2(0.f, -1.f) * m_JumpSpeed);
-	m_IsGound = false;
+	isGround = false;
 }

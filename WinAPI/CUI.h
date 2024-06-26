@@ -1,6 +1,7 @@
 #pragma once
 #include "CObj.h"
 
+class CTexture;
 
 class CUI :
     public CObj
@@ -10,6 +11,7 @@ private:
     vector<CUI*>    m_vecChild;
 
     Vec2            m_FinalPos;
+
 
     bool            m_MouseOn;      // 현재 마우스가 UI 위에 있는지
     bool            m_MouseOn_Prev; // 이전 프레임에 마우스가 UI 위에 있었는지
@@ -29,7 +31,6 @@ public:
     bool IsLBtnDown() { return m_LbtnDown; }
     bool IsMouseOn() { return m_MouseOn; }
 
-public:
     virtual void Tick() override final;
     virtual void Render() override final;
 

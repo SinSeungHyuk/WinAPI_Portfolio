@@ -40,7 +40,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UpdateWindow(hWnd);
 
     // Engine 초기화
-    CEngine::Get()->Init(hWnd, 1280, 768);
+    CEngine::Get()->Init(hWnd, 1920, 1080);
     
    
     // GetMessage 함수는 메세지큐에 메세지가 있으면 메세지를 꺼내온다.

@@ -25,6 +25,8 @@ private:
 
 
 public:
+    void SetTexture(CTexture* texture) { m_NormalImg = texture; }
+
     void SetCallBack(BTN_CALLBACK _CallBack) { m_CallBack = _CallBack; }
     void SetDelegate(CBase* _Inst, BaseFunc _MemFunc)
     {

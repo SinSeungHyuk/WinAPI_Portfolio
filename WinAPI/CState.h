@@ -14,15 +14,15 @@ class CState :
     public CBase
 {
 private:
-    CStateMachine*      m_Owner;
+    CStateMachine*      owner;
 
 public:
-    CStateMachine* GetStateMachine() { return m_Owner; }
+    CStateMachine* GetStateMachine() { return owner; }
 
     template<typename T>
     T* GetOwner()
     {        
-        T* pObject = dynamic_cast<T*>(m_Owner->GetOwner());
+        T* pObject = dynamic_cast<T*>(owner->GetOwner());
         assert(pObject);
         return pObject;
     }

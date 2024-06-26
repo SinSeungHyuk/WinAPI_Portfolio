@@ -1,11 +1,6 @@
 #pragma once
 #include "CStateMachine.h"
 
-enum PlayerLayer {
-    MovementLayer,
-    AttackLayer,
-};
-
 class CPlayerStateMachine :
     public CStateMachine
 {

@@ -26,10 +26,6 @@ CPatrolMonster::CPatrolMonster(int hp, float speed, float range, DeathEventStrat
 	collider->SetOffset(Vec2(0.f, -32.f));
 	collider->SetScale(Vec2(60.f, 64.f));
 
-
-
-	//rigidbody->SetGround(true);
-
 	// 스테이트머신
 	stateMachine = AddComponent(new CPatrolStateMachine);
 	stateMachine->SetLayer();
@@ -49,38 +45,42 @@ CPatrolMonster::~CPatrolMonster()
 
 void CPatrolMonster::Tick()
 {
-	Vec2 pos = GetPos();
-	MonsterData* data = GetMonsterData();
-
-	if (!isMonsterLeft) 
-		pos.x += data->GetSpeed() * DT;
-	else 
-		pos.x -= data->GetSpeed() * DT;
-
-	SetPos(pos);
+	if (animator->IsFinish()) {
+		Destroy(this);
+	}
 }
 
 void CPatrolMonster::LoadAnimations()
 {
 	animator = AddComponent(new CAnimator);
-										 
-	animator->LoadAnimation(L"animation\\Monster\\PINK_IDLE_RIGHT.anim");
-	animator->LoadAnimation(L"animation\\Monster\\PINK_IDLE_LEFT.anim");
-	animator->LoadAnimation(L"animation\\Monster\\PINK_RUN_LEFT.anim");
-	animator->LoadAnimation(L"animation\\Monster\\PINK_RUN_RIGHT.anim");
+
+	animator->LoadAnimation(L"animation\\Monster\\Chicken_Hit.anim");
+	animator->LoadAnimation(L"animation\\Monster\\Chicken_Hit_Left.anim");
+	animator->LoadAnimation(L"animation\\Monster\\Chicken_Run.anim");
+	animator->LoadAnimation(L"animation\\Monster\\Chicken_Run_Left.anim");
 
 	// Animation 플레이
-	animator->Play(L"PINK_IDLE_RIGHT", true);
-
+	animator->Play(L"Chicken_Run", true);
 }
 
 void CPatrolMonster::PlayAnimation(ANIMATION_TYPE type)
 {
+	if (type == ANIMATION_TYPE::DEAD) {
+		if (isMonsterLeft) {
+			animator->Play(L"Chicken_Hit_Left", false);
+		}
+		else 
+			animator->Play(L"Chicken_Hit", false);
+		return;
+	}
+
 	if (isMonsterLeft) {
-		animator->Play(L"PINK_RUN_LEFT", true);
+		animator->Play(L"Chicken_Run_Left", true);
 	}
 	else 
-		animator->Play(L"PINK_RUN_RIGHT", true);
+		animator->Play(L"Chicken_Run", true);
+
+
 }
 
 void CPatrolMonster::BeginOverlap(CCollider* _OwnCollider, CObj* _OtherObj, CCollider* _OtherCollider)

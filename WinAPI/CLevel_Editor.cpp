@@ -90,41 +90,20 @@ void CLevel_Editor::Init()
 	pPanel->SetName(L"Origin Panel");
 	pPanel->SetScale(Vec2(500.f, 400.f));
 	pPanel->SetPos(Vec2(700.f, 30.f));
-	AddObject(pPanel, LAYER_TYPE::UI);
+	//AddObject(pPanel, LAYER_TYPE::UI);
 
 
 	// UI 추가하기
 	CBtnUI* pUI = new CBtnUI;
 	Vec2 vResol = CEngine::Get()->GetResolution();
-	pUI->SetScale(Vec2(120.f, 50.f));
-	pUI->SetPos(Vec2(10.f, 20.f));
+	pUI->SetTexture(CAssetMgr::Get()->LoadTexture(L"BtnPlay", L"texture\\BtnPlay.png"));
+	pUI->SetScale(Vec2(224.f, 64.f));
+	pUI->SetPos(Vec2(100.f, 200.f));
 	pUI->SetCallBack(&TestFunc);
-	pPanel->AddChildUI(pUI);
+	AddObject(pUI, LAYER_TYPE::UI);
+	//pPanel->AddChildUI(pUI);
 	
-	pUI = new CBtnUI;
-	pUI->SetScale(Vec2(120.f, 50.f));
-	pUI->SetPos(Vec2(10.f, 120.f));
-	pUI->SetCallBack(&TestFunc2);
-	pPanel->AddChildUI(pUI);
 
-	pUI = new CBtnUI;
-	pUI->SetScale(Vec2(120.f, 50.f));
-	pUI->SetPos(Vec2(10.f, 220.f));
-	pUI->SetDelegate(this, (BaseFunc)&CLevel_Editor::SaveTile);
-	pPanel->AddChildUI(pUI);
-
-	pUI = new CBtnUI;
-	pUI->SetScale(Vec2(120.f, 50.f));
-	pUI->SetPos(Vec2(10.f, 320.f));
-	pUI->SetDelegate(this, (BaseFunc)&CLevel_Editor::LoadTile);
-	pPanel->AddChildUI(pUI);
-
-
-	CPanel* pClonePanel = pPanel->Clone();
-	pClonePanel->SetName(L"Clone Panel");
-	pClonePanel->SetPos(Vec2(300.f, 100.f));
-
-	AddObject(pClonePanel, LAYER_TYPE::UI);
 }
 
 void CLevel_Editor::Exit()

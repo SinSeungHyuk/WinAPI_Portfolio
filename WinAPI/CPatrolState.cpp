@@ -2,18 +2,25 @@
 #include "CPatrolState.h"
 
 #include "CMonster.h"
+#include "MonsterData.h"
 
 
 void CPatrolState::Enter()
 {
 	monster = GetOwner<CMonster>();
-
-	monster->animator->Play(L"PINK_RUN_RIGHT", true);
 }
 
 void CPatrolState::FinalTick()
 {
+	pos = monster->GetPos();
+	data = monster->GetMonsterData();
 
+	if (!monster->isMonsterLeft)
+		pos.x += data->GetSpeed() * DT;
+	else
+		pos.x -= data->GetSpeed() * DT;
+
+	monster->SetPos(pos);
 }
 
 void CPatrolState::Exit()
@@ -21,7 +28,7 @@ void CPatrolState::Exit()
 }
 
 CPatrolState::CPatrolState()
-	: monster(nullptr)
+	: monster(nullptr), data(nullptr)
 {
 }
 

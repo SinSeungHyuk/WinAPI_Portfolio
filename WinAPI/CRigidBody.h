@@ -17,7 +17,7 @@ private:
     float               m_GravityMaxSpeed;  // 중력으로 인해서 발생하는 속도의 최대 제한치
     float               m_JumpSpeed;
     bool                m_IsMove;           // 현재 오브젝트가 움직이는 중인지 아닌지 체크
-    bool                m_IsGound;          // 지상위에 서있는지 판정
+    bool                isGround;          // 지상위에 서있는지 판정
     bool                m_UseGravity;
 
 public:
@@ -34,6 +34,7 @@ public:
     void SetGravityVelocity(Vec2 velocity) { m_GravityVelocity = velocity; }
 
     void SetGround(bool _Ground);
+    bool GetGround() { return isGround; }
 
     void Jump();
 

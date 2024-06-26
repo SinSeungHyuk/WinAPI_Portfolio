@@ -3,6 +3,7 @@
 
 #include "Resource.h"
 #include "CEngine.h"
+#include "CTexture.h"
 
 CBtnUI::CBtnUI()
 	: m_CallBack(nullptr)
@@ -10,6 +11,9 @@ CBtnUI::CBtnUI()
 	, m_MemFunc(nullptr)
 	, m_MemFunc_1(nullptr)
 	, m_MemFunc_2(nullptr)
+	, m_NormalImg(nullptr)
+	, m_HoverImg(nullptr)
+	, m_PressedImg(nullptr)
 {
 }
 
@@ -39,22 +43,11 @@ void CBtnUI::LBtnClicked()
 
 void CBtnUI::Render_UI()
 {
-	PEN_TYPE Pen = PEN_TYPE::GREEN;
-	if (IsMouseOn())
-	{
-		Pen = PEN_TYPE::BLUE;
-	}
+	Vec2 vPos = GetRenderPos();
+	UINT width = m_NormalImg->GetWidth();
+	UINT height = m_NormalImg->GetHeight();
 
-	if (IsLBtnDown())
-	{
-		Pen = PEN_TYPE::RED;
-	}
+	TransparentBlt(BackDC, (int)vPos.x, (int)vPos.y
+		, width, height, m_NormalImg->GetDC(), 0, 0, width, height, RGB(0, 0, 0));
 
-	SELECT_PEN(BackDC, Pen);
-	SELECT_BRUSH(BackDC, BRUSH_TYPE::GRAY);
-
-	Vec2 vFinalPos = GetFinalPos();
-	Vec2 vScale = GetScale();
-	Rectangle(BackDC, (int)vFinalPos.x, (int)vFinalPos.y
-		, (int)vFinalPos.x + (int)vScale.x, (int)vFinalPos.y + (int)vScale.y);
 }

@@ -14,6 +14,7 @@
 #include "CLogMgr.h"
 #include "CUIMgr.h"
 #include "CSoundMgr.h"
+#include "CGameManager.h"
 
 #include "CTexture.h"
 
@@ -67,6 +68,7 @@ void CEngine::Init(HWND _MainHwnd, UINT _Width, UINT _Height)
 	CSoundMgr::Get()->Init();
 	CLevelMgr::Get()->Init();
 	CCamera::Get()->Init();
+	CGameManager::Get()->Init();
 }
 
 
@@ -78,6 +80,7 @@ void CEngine::Progress()
 	CCollisionMgr::Get()->Tick();
 	CCamera::Get()->Tick();
 	CUIMgr::Get()->Tick();
+	CGameManager::Get()->Tick();
 
 	// Level 물체들 렌더링
 	Render();

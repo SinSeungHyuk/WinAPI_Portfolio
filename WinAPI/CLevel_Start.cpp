@@ -3,11 +3,16 @@
 
 #include "CEngine.h"
 #include "CPlayer.h"
-#include "CForce.h"
+#include "CCollider.h"
 #include "CPatrolMonster.h"
+#include "CTraceMonster.h"
+#include "CProjectileMonster.h"
 #include "ItemDropEvent.h"
 #include "CPlatform.h"
 #include "CTile.h"
+#include "CImage.h"
+#include "CCoinItem.h"
+#include "CEndPointItem.h"
 
 #include "CAssetMgr.h"
 #include "CSound.h"
@@ -34,7 +39,7 @@ void CLevel_Start::Init()
 	CPlayer* pPlayer = new CPlayer;
 	pPlayer->SetName(L"Player");
 	Vec2 vResol = CEngine::Get()->GetResolution();
-	pPlayer->SetPos(vResol.x / 2.f, vResol.y / 4.f);
+	pPlayer->SetPos(vResol.x * 0.5f, vResol.y / 3.f);
 	pPlayer->SetScale(64.f, 64.f);
 	// 플레이어를 현재 레벨에 등록
 	RegisterPlayer(pPlayer);
@@ -43,33 +48,68 @@ void CLevel_Start::Init()
 
 	// Monster
 	DeathEventStrategy* deathEvent = new ItemDropEvent();
-	CMonster* pObj = new CPatrolMonster(3,100.0f,500.0f,deathEvent);
-	pObj->SetScale(64.f, 64.f);
-	pObj->SetName(L"Monster");
-	pObj->SetPos(750.f,100.f);	
-	AddObject(pObj, LAYER_TYPE::MONSTER);
+	CMonster* monster1 = new CProjectileMonster(3,150.0f,300.0f,deathEvent);
+	monster1->SetScale(64.f, 64.f);
+	monster1->SetName(L"Monster");
+	monster1->SetPos(750.f,100.f);
+	AddObject(monster1, LAYER_TYPE::MONSTER);
 
+	//CMonster* monster2 = new CTraceMonster(3, 150.0f, 300.0f, deathEvent);
+	//monster2->SetScale(64.f, 64.f);
+	//monster2->SetName(L"Monster2");
+	//monster2->SetPos(700.f, 100.f);
+	//AddObject(monster2, LAYER_TYPE::MONSTER);
+
+		//	// Item
+	CItem* coin = new CCoinItem;
+	coin->SetName(L"coin");
+	coin->SetPos(1200.f, 500.f);
+	coin->SetScale(32.f, 32.f);
+	AddObject(coin, LAYER_TYPE::ITEM);
+
+	CItem* coin2 = new CCoinItem;
+	coin2->SetName(L"coin");
+	coin2->SetPos(1250.f, 500.f);
+	coin2->SetScale(32.f, 32.f);
+	AddObject(coin2, LAYER_TYPE::ITEM);
 
 
 	// Platform
 	CPlatform* pPlatform = new CPlatform;
 	pPlatform->SetName(L"Platform");
-	pPlatform->SetPos(vResol.x / 2.f, 3.f * (vResol.y / 4.f));
-	pPlatform->SetScale(800.f, 150.f);
+	pPlatform->SetPos(700.f, 700.f);
+	pPlatform->SetScale(1800.f, 100.f);
 	AddObject(pPlatform, LAYER_TYPE::PLATFORM);
 
 	CPlatform* pPlatform2 = new CPlatform;
 	pPlatform2->SetName(L"Platform");
-	pPlatform2->SetPos(vResol.x / 2.f, 3.f * (vResol.y / 4.f) - 250.f);
-	pPlatform2->SetScale(400.f, 150.f);
+	pPlatform2->SetPos(700.f, 550.f);
+	pPlatform2->SetScale(400.f, 100.f);
 	AddObject(pPlatform2, LAYER_TYPE::PLATFORM);
 
+	CPlatform* pPlatform4 = new CPlatform;
+	pPlatform4->SetPos(500.f, 450.f);
+	pPlatform4->SetScale(10.f, 10.f);
+	pPlatform4->GetComponent<CCollider>()->SetTrigger(true);
+	AddObject(pPlatform4, LAYER_TYPE::PLATFORM);
+
+	CPlatform* pPlatform3 = new CPlatform;
+	pPlatform3->SetPos(900.f, 450.f);
+	pPlatform3->SetScale(10.f, 10.f);
+	pPlatform4->GetComponent<CCollider>()->SetTrigger(true);
+	AddObject(pPlatform3, LAYER_TYPE::PLATFORM);
+
+	CImage* image = new CImage;
+	image->SetPos(500.f, 50.f);
+	image->SetTexture(CAssetMgr::Get()->LoadTexture(L"gemImage", L"texture\\gemImage.png"));
+	AddObject(image, LAYER_TYPE::UI);
 	
 
 
 	// 충돌 지정
 	CCollisionMgr::Get()->CollisionCheck(5, 3, true);
 	CCollisionMgr::Get()->CollisionCheck((UINT)LAYER_TYPE::PLAYER, (UINT)LAYER_TYPE::MONSTER, true);
+	CCollisionMgr::Get()->CollisionCheck((UINT)LAYER_TYPE::PLAYER, (UINT)LAYER_TYPE::ITEM, true);
 	CCollisionMgr::Get()->CollisionCheck((UINT)LAYER_TYPE::PLATFORM, (UINT)LAYER_TYPE::MONSTER, true);
 	CCollisionMgr::Get()->CollisionCheck((UINT)LAYER_TYPE::PLAYER, (UINT)LAYER_TYPE::PLATFORM, true);
 }
@@ -83,19 +123,6 @@ void CLevel_Start::Exit()
 void CLevel_Start::Tick()
 {
 	CLevel::Tick();
-
-	// 마우스 클릭이 발생 시, 해당 위치에 Force 오브젝트 생성
-	if (KEY_TAP(KEY::LBTN))
-	{
-		Vec2 vPos = CKeyMgr::Get()->GetMousePos();
-
-		CForce* pForce = new CForce;
-		pForce->SetPos(vPos);
-		pForce->SetForce(-1000.f, 300.f);
-		pForce->SetLifeTime(0.2f);
-		
-		CreateObject(pForce, LAYER_TYPE::DEFAULT);
-	}
 
 	if (KEY_TAP(KEY::ENTER))
 	{

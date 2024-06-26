@@ -39,7 +39,7 @@ void CStateMachine::FinalTick()
 void CStateMachine::AddState(const wstring& stateName, CState* state, int layer)
 {
 	state->SetName(stateName);
-	state->m_Owner = this;
+	state->owner = this;
 
 	if (layers.find(layer) == layers.end()) layers.insert(layer);
 
@@ -63,6 +63,8 @@ CStateMachine::StateData* CStateMachine::FindState(const wstring& stateName, int
 void CStateMachine::ChangeState(const wstring& stateName, int layer)
 {
 	StateData* changeState = FindState(stateName, layer);
+
+	if (changeState == currentStateDatasByLayer[layer]) return;
 
 	// 기존 상태를 빠져나오고(Exit)
 	if (nullptr != currentStateDatasByLayer[layer])

@@ -9,7 +9,7 @@ class CPlatform :
     public CObj
 {
 private:
-    CCollider*  m_Collider;
+    CCollider*  collider;
     CTexture* texture;
 
     OVERLAP_TYPE overlapType;
